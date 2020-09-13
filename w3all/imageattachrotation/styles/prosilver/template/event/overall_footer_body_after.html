@@ -1,1 +1,132 @@
+<iframe id="w3rFrame" name="w3rFrame" style="display:none;"></iframe>
 
+<script>
+// fire only if if in 'posting mode edit'
+var w3ReqMode = "{{ lang('W3IMAGEROTATION_REQMODE') }}";
+
+if( w3ReqMode == 'edit' || w3ReqMode == 'post' ){
+
+	var imgARY = ["jpg", "jpeg", "gif", "png"];
+	var imgext = filenm = '';
+			
+// observed for mutations
+const w3targetNode = document.getElementById('file-list'); // need to match on DOM
+// which mutations
+const w3config = { childList: true, subtree: true };
+// callback 
+const callback = function(mutationsList, w3observer) {
+	
+ for(let mutation of mutationsList) {
+        
+ $('td.attach-name > span.file-name').each(function () { // need to match on DOM
+  filenm = $(this).text();
+  if($.trim(filenm)){
+   imgext = filenm.split('.').pop().toLowerCase();
+   if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
+     $(this).append( '<br /><a style="font-size:85%" class="w3rotate" href="javascript:void(0);">'+"{{ lang('W3ROTATEIMG_TEXT') }}"+'</a>' ); 
+     var chref = $(this).children().prop("href");
+    if( typeof chref != "undefined" ){
+     var switchMode = chref.replace("mode=view", "mode=rImg");
+      $(this).children().next().next().attr("href", switchMode); 
+      $(this).children().next().next().click(function(e){
+      e.preventDefault(e);
+      e.stopPropagation(e);
+      $("#w3rFrame").attr("src", this.href); 
+      $("#w3rFrame").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999","width":"300","height":"350","overflow":"scroll" });
+     })
+    }
+   }
+  }
+});
+  } // END for
+};  // END const callback = function(mutationsList, w3observer)
+
+// instance linked to the callback function
+const w3observer = new MutationObserver(callback);
+
+// Start observing 
+w3observer.observe(w3targetNode, w3config);
+
+
+	
+	var w3docdomain = "{{ lang('W3IMAGEROTATION_PHPBBCOOKIEDOMAIN') }}";
+	 if( w3docdomain.charAt(0) == '.' ){
+	 	w3docdomain = w3docdomain.substr(1)
+	 }
+	 
+   document.domain = w3docdomain;
+
+	$(document).mouseup(function (e) {
+   if ($(e.target).closest(".w3rFrame").length === 0) { 
+     $("#w3rFrame").css("display", "none");
+     $("#w3rFrame").attr("src", "");
+    } 
+  });
+
+// this should update the new attach ID of the file just rotated to display rotated file and not the previous browser's chached one? 
+function w3_fileSrc_ajaxup(r){
+	res_a = r.split("//#//");
+   if( typeof res_a != "undefined" ){
+	   fn = $.trim(res_a[1]); // filename just processed by fileRotate.php
+	   //fid = $.trim(res_a[2]); // file ID just processed
+	   //fnew_id = $.trim(res_a[3]); // new file ID 
+	   //fposter_id = $.trim(res_a[4]); // file posterID (user ID)
+	   
+	  //console.log('fn= ' + fn + ' - fid= '+fid);
+		$( "td.attach-name > span.file-name a:contains('" + fn + "')" ).each(function () {
+	    console.log('found filename, change href to maatch the new ID (so (maybe) image that display will not be the before cached one)');
+	  })
+	  
+	 }
+	 // close popup
+	  var w3rFrame = document.getElementById("w3rFrame");
+        w3rFrame.style.display = "none";
+        w3rFrame.src = "";
+} 
+
+ // This need to match on DOM:
+ // <td class="attach-name">
+ // <span class="file-name ellipsis-text"><a href="{attach_row.U_VIEW_ATTACHMENT}">{attach_row.FILENAME}</a>
+ // on /phpBB/styles/phpBBtheme/template/posting_attach_body.html
+$('td.attach-name > span.file-name').each(function () { // need to match on DOM
+	 //$('td.attach-name > span.file-name').mouseover(function () { // test match
+	 //	console.log($(this).text()); // the file name
+  filenm = $(this).text();
+  if($.trim(filenm)){
+   imgext = filenm.split('.').pop().toLowerCase();
+   if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
+   //console.log(imgext);
+   $(this).append( '<br /><a style="font-size:85%" class="w3rotate" href="javascript:void(0);">'+"{{ lang('W3ROTATEIMG_TEXT') }}"+'</a>' ); 
+   }
+  }
+});
+   
+$(".w3rotate").mouseover(function(e){
+	 var getPrevHref =	$( this ).prev().prev().attr('href'); // need to match on DOM
+	 // console.log(getPrevHref);
+	 if( typeof getPrevHref == 'undefined' ){
+	  console.log('getPrevHref undefined (overall_footer.html file, rotate js code)');
+   } else {
+	  var switchMode = getPrevHref.replace("mode=view", "mode=rImg");
+		$( this ).attr("href", switchMode); 
+	 }
+})
+
+/* $(".w3rotate").click(function(e){
+    e.preventDefault(e);
+    e.stopPropagation(e);
+  $("#w3rFrame").attr("src", this.href); 
+  $("#w3rFrame").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999","width":"300","height":"350","overflow":"scroll" });
+  })
+*/
+$( ".w3rotate" ).bind( "click", function(e) {
+    e.preventDefault(e);
+    e.stopPropagation(e);
+  $("#w3rFrame").attr("src", this.href); 
+  $("#w3rFrame").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999","width":"300","height":"350","overflow":"scroll" });
+
+});
+
+}
+// END fire only if if in 'posting mode edit'
+</script>
