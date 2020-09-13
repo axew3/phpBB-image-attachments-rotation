@@ -9,5 +9,5 @@ Go to "ACP" > "Customise" > "Extensions" and enable the "Attachments images rota
 
 Works for jpg/jpeg, gif and png
 
-You may wish to know better how the joke works, check this post:
+You may wish to know better how it works, so temporary, please check this post:
 https://www.phpbb.com/community/viewtopic.php?p=15591241#p15591241
