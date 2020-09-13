@@ -2,7 +2,7 @@
 
 ## Installation
 
-Copy the "w3all" folder into phpBB/ext/w3all/w3imagerotation.
+Copy the "w3all" folder into phpBB/ext/
 
 So you'll have: phpBB/ext/w3all/w3imagerotation
 
