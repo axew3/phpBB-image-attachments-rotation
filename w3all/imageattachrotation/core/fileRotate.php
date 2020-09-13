@@ -224,7 +224,7 @@ else
 	    if($source){
        $rotate = imagerotate($source, $degrees, 0);
       }
-      if($rotate){
+      if($rotate && $source != false){
        imagejpeg($rotate, $filesFolderThumbPhysicalName);
       }
 	 } elseif (strtolower($attachment['extension']) == 'gif'){
@@ -260,7 +260,7 @@ else
     imagepng($rotate,$filesFolderPhysicalName);
 	   // thumb
       $source = @imagecreatefrompng($filesFolderThumbPhysicalName);
-      if($source){
+      if($rotate && $source != false){
 	     $rotate = imagerotate($source, $degrees, $bgColor);
 	     if($rotate){
         imagesavealpha($rotate, true);
