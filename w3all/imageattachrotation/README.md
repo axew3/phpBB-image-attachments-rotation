@@ -1,4 +1,4 @@
-# Attachments images rotation
+# phpBB attachments images rotation
 
 ## Installation
 
