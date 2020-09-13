@@ -260,7 +260,7 @@ else
     imagepng($rotate,$filesFolderPhysicalName);
 	   // thumb
       $source = @imagecreatefrompng($filesFolderThumbPhysicalName);
-      if($rotate && $source != false){
+      if($source){
 	     $rotate = imagerotate($source, $degrees, $bgColor);
 	     if($rotate){
         imagesavealpha($rotate, true);
