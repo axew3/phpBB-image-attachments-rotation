@@ -1,0 +1,7 @@
+services:
+    w3all.imageattachrotation.listener:
+        class: w3all\imageattachrotation\event\main_listener
+        arguments:
+            - '@language'
+        tags:
+            - { name: event.listener }
