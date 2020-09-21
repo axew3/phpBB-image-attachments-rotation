@@ -22,11 +22,11 @@ class main_listener implements EventSubscriberInterface
 {
 	public static function getSubscribedEvents()
 	{
-		return array(
+	  return array(
 	    'core.user_setup' => 'load_language_on_setup',
 	    'core.download_file_send_to_browser_before'	=> 'download_file_send_to_browser_before',
 	    'core.display_forums_modify_template_vars'	=> 'display_forums_modify_template_vars',
-		);
+	  );
 	}
 
 	/* @var \phpbb\language\language */
@@ -39,7 +39,7 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function __construct(\phpbb\language\language $language)
 	{
-		$this->language = $language;
+	  $this->language = $language;
 	}
 
 	/**
@@ -62,8 +62,8 @@ class main_listener implements EventSubscriberInterface
 	 */
  public function download_file_send_to_browser_before($event)
 	{
-		global $auth,$attachment,$user,$phpbb_container,$cache;
-		$request = $phpbb_container->get('request');
+	  global $auth,$attachment,$user,$phpbb_container,$cache;
+	  $request = $phpbb_container->get('request');
 
    // if it is an allowed img and the request is 'rotate'
 
