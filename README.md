@@ -6,9 +6,9 @@ Copy the "w3all" folder into phpBB/ext/
 
 So you'll have: phpBB/ext/w3all/w3imagerotation
 
-Go to "ACP" > "Customise" > "Extensions" and enable the "Attachments images rotation" extension.
+Go to "ACP" > "Customise" > "Extensions" and enable the "Attachments images rotation" extension
 
-For jpg/jpeg, gif and png attachments files.
+For jpg/jpeg, gif and png attachments files
 
 ## Update/install: 
 
