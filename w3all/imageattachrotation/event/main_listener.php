@@ -23,7 +23,7 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'	=> 'load_language_on_setup',
+	    'core.user_setup' => 'load_language_on_setup',
 	    'core.download_file_send_to_browser_before'	=> 'download_file_send_to_browser_before',
 	    'core.display_forums_modify_template_vars'	=> 'display_forums_modify_template_vars',
 		);
@@ -51,8 +51,8 @@ class main_listener implements EventSubscriberInterface
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
-			'ext_name' => 'w3all/imageattachrotation',
-			'lang_set' => 'common',
+		  'ext_name' => 'w3all/imageattachrotation',
+		  'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
@@ -65,10 +65,10 @@ class main_listener implements EventSubscriberInterface
 		global $auth,$attachment,$user,$phpbb_container,$cache;
 		$request = $phpbb_container->get('request');
 
-	// if it is an allowed img and the request is 'rotate'
-	
-	 $validImgExt = array("jpg", "jpeg", "gif", "png");
-	 $own_attachment = ($auth->acl_get('a_attach')  || $attachment['poster_id'] == $user->data['user_id']) ? true : false;
+   // if it is an allowed img and the request is 'rotate'
+
+   $validImgExt = array("jpg", "jpeg", "gif", "png");
+   $own_attachment = ($auth->acl_get('a_attach')  || $attachment['poster_id'] == $user->data['user_id']) ? true : false;
    $mode = $request->variable('mode', '');
    $attach_id = $attachment['attach_id'];
 
