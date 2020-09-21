@@ -25,7 +25,7 @@ Test things may doing a test post
 
 If all ok, reset "Recompile stale style components" to no
 
-Done.
+Done
 
 
 ## You miss version 1.0.0?
