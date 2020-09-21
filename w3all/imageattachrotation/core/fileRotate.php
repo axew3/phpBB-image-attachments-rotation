@@ -20,9 +20,10 @@
 define('IN_PHPBB', true);
 
 ///////////////////
-// define the root from here
+//
 
 // $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './../../../../';
+// Define the root from here
 $phpbb_root_path = './../../../../';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 
@@ -45,13 +46,12 @@ else if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'
 // implicit else: we are not in avatar mode
  include($phpbb_root_path . 'common.' . $phpEx);
  require($phpbb_root_path . 'includes/functions_download' . '.' . $phpEx);
- 
- 
+
 ///////////////////
 //
  $request	= $phpbb_container->get('request');
+ //$config = $phpbb_container->get('config'); // already included
  $ajaxdata = $request->variable('data', '');
- //$ajaxdata = json_decode(stripslashes(htmlspecialchars_decode($ajaxdata))); // jQuery ... but pure js has been used in rotateImg.php: were no jQuery lib in phpBB at that point
 
 if(empty($ajaxdata)){
 	send_status_line(404, 'Not Found');
@@ -86,18 +86,12 @@ if (!$config['allow_attachments'] && !$config['allow_pm_attach'])
 	trigger_error('ATTACHMENT_FUNCTIONALITY_DISABLED');
 }
 
-if (!$attach_id)
-{
-	send_status_line(404, 'Not Found');
-	trigger_error('NO_ATTACHMENT_SELECTED');
-}
-
-$sql = 'SELECT attach_id, post_msg_id, topic_id, in_message, poster_id, is_orphan, physical_filename, real_filename, extension, mimetype, filesize, filetime
+ $sql = 'SELECT * 
 	FROM ' . ATTACHMENTS_TABLE . "
 	WHERE attach_id = $attach_id";
-$result = $db->sql_query($sql);
-$attachment = $db->sql_fetchrow($result);
-$db->sql_freeresult($result);
+ $result = $db->sql_query($sql);
+ $attachment = $db->sql_fetchrow($result);
+ $db->sql_freeresult($result);
 
 if (!$attachment)
 {
@@ -196,8 +190,8 @@ else
  }
  
  $degrees = 360-$degrees; // passed clockwise, expect anticlockwise
- $filesFolderPhysicalName = $phpbb_root_path . 'files/' . $attachment['physical_filename'];
- $filesFolderThumbPhysicalName = $phpbb_root_path . 'files/' . 'thumb_' . $attachment['physical_filename'];
+ $filesFolderPhysicalName = $phpbb_root_path . $config['upload_path']. '/' . $attachment['physical_filename'];
+ $filesFolderThumbPhysicalName = $phpbb_root_path . $config['upload_path']. '/' . 'thumb_' . $attachment['physical_filename'];
  
  if( strtolower($attachment['extension']) == 'jpg' OR strtolower($attachment['extension']) == 'jpeg' ){
 	 $source = @imagecreatefromjpeg($filesFolderPhysicalName);
@@ -218,17 +212,18 @@ else
   // JPG
    if( strtolower($attachment['extension']) == 'jpg' OR strtolower($attachment['extension']) == 'jpeg' ){
    	$rotate = imagerotate($source, $degrees, 0);
-	  imagejpeg($rotate, $filesFolderPhysicalName);
+	  $saved = imagejpeg($rotate, $filesFolderPhysicalName);
 	  // thumb
      $source = @imagecreatefromjpeg($filesFolderThumbPhysicalName); 
-	    if($source){
+	   if($source){
        $rotate = imagerotate($source, $degrees, 0);
-      }
-      if($rotate && $source != false){
+      if($rotate){
        imagejpeg($rotate, $filesFolderThumbPhysicalName);
       }
+     }
+      
 	 } elseif (strtolower($attachment['extension']) == 'gif'){
-	 // GIF: will not save the gif BG Matte (if there is applied to the gif)
+	 // GIF: will not save the gif BG Matte if there is applied to the gif
 	 // https://www.axew3.com/w3/forums/viewtopic.php?f=7&t=1572 
   $new_image = imagecreatetruecolor($width, $height);
   $transparencyIndex = imagecolortransparent($source);
@@ -245,19 +240,19 @@ else
     imagefill($new_image, 0, 0, $transparencyIndex);
     imagecolortransparent($new_image, $transparencyIndex); 
     imagecopyresampled($new_image, $source, 0, 0, 0, 0, $width, $height, $width, $height);
-    //imagecopy($new_image, $source, 0, 0, 0, 0, $width, $height);
-    //imagecopyresized($new_image, $source, 0, 0, 0, 0, $width, $height, $width, $height);
+    //imagecopy($new_image, $source, 0, 0, 0, 0, $width, $height); // same result
+    //imagecopyresized($new_image, $source, 0, 0, 0, 0, $width, $height, $width, $height); // same result
     $rotate = imagerotate($new_image, $degrees,0);
-    imagegif($rotate,$filesFolderPhysicalName);
+    $saved = imagegif($rotate,$filesFolderPhysicalName);
  
-   // thumb ... but there is no thumb for gif format
+   // thumb ... there is no thumb for gif format
     
 	 } elseif (strtolower($attachment['extension']) == 'png'){ 
 	// PNG
     $bgColor = imagecolorallocatealpha($source, 255, 255, 255, 127);
     $rotate = imagerotate($source, $degrees, $bgColor);
     imagesavealpha($rotate, true);
-    imagepng($rotate,$filesFolderPhysicalName);
+    $saved = imagepng($rotate,$filesFolderPhysicalName);
 	   // thumb
       $source = @imagecreatefrompng($filesFolderThumbPhysicalName);
       if($source){
@@ -278,16 +273,43 @@ else
    imagedestroy($rotate);
   }
   
-  // Note:
-  // the filename should be updated into db, to get after, on the post output, the new rotated image, and (maybe) not the one cached by the browser
-  // set the attach ID to a new one into db, it would be sufficient to get the new file, and not the cached one
-  // there is a more efficient way to achieve this? (i do not think)
+
+if ($saved){
+  // Set the attach ID to a new one into db, to get the new file after, and not the cached one
+  // There is a more efficient way to achieve this? Using phpbb.plupload, after the response?
  
-  // new attachment attach id
-  $new_attachID = 0; // not used at moment
+ $sql_arr = array(
+    'attach_id'    => '0',
+    'post_msg_id'  => $attachment['post_msg_id'],
+    'topic_id'     => $attachment['topic_id'],
+    'in_message'   => $attachment['in_message'],
+    'poster_id'    => $attachment['poster_id'],
+    'is_orphan'    => $attachment['is_orphan'],
+    'physical_filename' => $attachment['physical_filename'],
+    'real_filename' => $attachment['real_filename'],
+    'download_count' => $attachment['download_count'],
+    'attach_comment' => $attachment['attach_comment'],
+    'extension'    => $attachment['extension'],
+    'mimetype'     => $attachment['mimetype'],
+    'filesize'     => $attachment['filesize'],
+    'filetime'     => $attachment['filetime'],
+    'thumbnail'    => $attachment['thumbnail']
+ );
+
+$sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_arr);
+$db->sql_query($sql);
+$new_attachID = (int) $db->sql_nextid();
+ 
+ if($new_attachID > 0){ // delete older
+   $sql = "DELETE FROM " . ATTACHMENTS_TABLE . " 
+        WHERE attach_id = $attach_id";
+   $db->sql_query($sql);
+  }
   
-  if(isset($endOK)){
-   echo "OK-IMG-PROCESSED//#//".$attachment['real_filename'].'//#//'.$attachment['attach_id'].'//#//'.$new_attachID.'//#//'.$attachment['poster_id'];
+}
+  
+  if(isset($endOK) && $saved){ // if not saved, the placeholder ID will not match: anyway in this case, the placeholder will need to be removed, then re-added on post
+   echo "OK-IMG-PROCESSED//#//".$attachment['real_filename'].'//#//'.$attachment['attach_id'].'//#//'.$new_attachID.'//#//'.$attachment['filesize'].'//#//'.$attachment['is_orphan'].'//#//'.$attachment['mimetype'].'//#//'.$attachment['attach_comment'];
   } else {
   	echo "ERROR-IMG-NOTPROCESSED";
   }
@@ -296,9 +318,6 @@ else
   } // END if($source){
 
 exit;
-echo' fileRotate.php -> ';print_r($attachment);echo $user->data['user_id'];exit;
-exit;
-
 //
 ///////////////////
 }
