@@ -4,12 +4,12 @@
 * axew3.com
 */
 	defined( 'IN_PHPBB' ) or die( 'forbidden' );
-	
+
 	$config = $phpbb_container->get('config');
   //$user->add_lang_ext('w3all/imageattachrotation', 'common'); // already included
 
   $phpbb_root_path = './../';
-	$fsource = $phpbb_root_path . 'files/'.$attachment['physical_filename'];
+	$fsource = $phpbb_root_path . $config['upload_path']. '/' .$attachment['physical_filename'];
   $validImgExt = array("jpg", "jpeg", "gif", "png");
 	
  if (!in_array(strtolower($attachment['extension']), $validImgExt)) {
@@ -39,7 +39,7 @@ $width = $orig_width = @imagesx($source);
 $height = $orig_height = @imagesy($source);
 
  if(!$width OR !$height OR $width < 5 OR $height < 5){
-	 echo "The image result is too small"; exit;
+	 echo "The image is too small"; exit; // ??
   }
 
  if($orig_width > $desired_width OR $orig_height > $desired_height){
@@ -59,13 +59,13 @@ $height = $orig_height = @imagesy($source);
  $height_res = intval($height_res);
  //$html_img_output_minContainer = $width_res > $height_res ? $width_res : $height_res;
  
-// Raw preview here: going to create just an jpg for the scope (and the bg of any image will be black (as code is))
+// Going to create just a little jpg for the scope (and the bg of any image will be black (as code is))
 
 $thumb = imagecreatetruecolor($width_res, $height_res);
 
 imagecopyresized($thumb, $source, 0, 0, 0, 0, $width_res, $height_res, $width, $height);
 ob_start();
-$thumb = imagejpeg($thumb);
+$thumb = imagejpeg($thumb); // before to follow here, should check if the image has been possible to be created
 $imgOut = ob_get_contents();
 ob_end_clean();
 imagedestroy($source);
@@ -75,18 +75,17 @@ function img_data_uri($file, $mime)
   return ('data:' . $mime . ';base64,' . $base64);
 }
 
- $config['cookie_domain'] = $config['cookie_domain'][0] == '.' ? substr($config['cookie_domain'], 1) : $config['cookie_domain'];
+ $cookie_domain = $config['cookie_domain'][0] == '.' ? substr($config['cookie_domain'], 1) : $config['cookie_domain'];
 
-// raw output
+// raw popup output
  
 	echo '<html><head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <script>
-   document.domain = "'.$config['cookie_domain'].'";
+   document.domain = "'.$cookie_domain.'";
     let w3Delta = 0;
     let countW3 = 0;
-    let w3imgHeightRset = 0;
  
    function w3rotateByDeg(e){
      w3Delta+=90;
@@ -100,7 +99,7 @@ function img_data_uri($file, $mime)
 function w3sendThis(){
  
  if(countW3 < 1){ 
-  alert("Click into image to rotate it, then Save!");
+  alert("'.$user->lang['W3POPUP_ALERT'].'");
   return;
  }
 
@@ -117,7 +116,7 @@ function w3sendThis(){
  urlEncodedDataPairs.push(encodeURIComponent("data") + "=" + encodeURIComponent(ARY));
 
    XHR.addEventListener("error", function(event) {
-    console.log("Error:" + event);
+    console.log("Error: " + event);
    });
    XHR.addEventListener("timeout", function(event) {
     console.log("Error: timeout");
@@ -128,12 +127,12 @@ function w3sendThis(){
     } else if (XHR.readyState === 3) {
     	//console.log(XHR.response + " waiting");
     } else if (XHR.readyState === 4) { // onload -> done
+      //console.log(XHR.response);   
        if (XHR.response.indexOf("OK-IMG-PROCESSED") > -1 !== false){
         parent.w3_fileSrc_ajaxup(XHR.response);
-        w3Delta = 0; // reset to actual 0 degrees if popup not closed, and another rotation occur
+        w3Delta = countW3 = 0; // reset to actual 0 degrees if popup not closed, and another rotation occur
         // alert("The image has been rotated, closing popup ...");
-        // ...
-        // console.log(XHR.response + " -> done");
+        //console.log(XHR.response + " -> done");
        } 
       }
    }
@@ -141,7 +140,6 @@ function w3sendThis(){
   XHR.open("POST", "'.$phpbb_root_path.'ext/w3all/imageattachrotation/core/fileRotate.php");
   XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   XHR.send(urlEncodedDataPairs);
-  
 }
 </script>
 <style>
@@ -181,7 +179,6 @@ text-align:center;
 padding:0px;
 margin:0px;
 }
-
 
 .w3Bround{
 /*font-size:1.2em;*/
