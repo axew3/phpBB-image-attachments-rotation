@@ -11,7 +11,8 @@ Go to "ACP" > "Customise" > "Extensions" and enable the "Attachments images rota
 For jpg/jpeg, gif and png attachments files.
 
 ## Update/install: 
-If updating, disable 1.0.0 and delete data into ACP Extensions Manager
+
+If updating, disable the old version and delete data into ACP Extensions Manager
 
 Upload and copy or overwrite all files as above explained
 
