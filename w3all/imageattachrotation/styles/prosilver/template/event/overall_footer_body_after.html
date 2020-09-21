@@ -73,15 +73,15 @@ function w3_fileSrc_ajaxup(r){
 	   //fposter_id = $.trim(res_a[4]); // file posterID (user ID)
 	   //console.log('fn= ' + fn + ' - fid= '+fid + ' - fnew_id= '+fnew_id );
 	   
-	   // set the new id to the file url
-		$( "td.attach-name > span.file-name a:contains('" + fn + "')" ).each(function () {
-     // update on DOM attachments panel the URL id part of this attach
-     var h = $(this).prop("href");
-     pu = h.split('/download/').pop();
-     v = pu.replace(/id\=[0-9]+/gi, 'id='+fnew_id);
-     rurl = './download/' + v;
-     $( this ).attr("href", rurl); 
-	  })
+     // set the new id to the file url
+     $( "td.attach-name > span.file-name a:contains('" + fn + "')" ).each(function () {
+      // update on DOM attachments panel the URL id part of this attach
+      var h = $(this).prop("href");
+      pu = h.split('/download/').pop();
+      v = pu.replace(/id\=[0-9]+/gi, 'id='+fnew_id);
+      rurl = './download/' + v;
+      $( this ).attr("href", rurl); 
+     })
     
 // change data-attach-id to the actual one and build his new object
   $( "tr.attach-row[data-attach-id=\'"+fid+"\'" ).each(function () {
@@ -101,7 +101,6 @@ function w3_fileSrc_ajaxup(r){
   // Note that old is removed, and the new added (ever) at position 0 (so placeholders are re-indexed on post)
   // Go to mimic +- what happen when a new file added: but do not remove element on page and re-add it like when new attach added/uploaded. That could be another way
 
-  
   var t = phpbb.plupload.data;
 
   function findItem(ary) {
@@ -134,7 +133,7 @@ var rgx1 = new RegExp('\\[attachment='+i+'\](.*?)\\[\\/attachment\\]', 'g');
 var res1 = rgx1.exec(res0[0]);
 //console.log('res1 is -> ' +res1[1]);
 
-// Add a placeholder to be subsituted after 
+// Add a placeholder to be substituted after 
 // ... my name is Bond, James Bond 
 text = text.replace(rgx0, '[007JamesBond][attachment='+i+']'+res1[1]+'[/attachment]');
 textarea.val(text);
