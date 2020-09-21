@@ -24,7 +24,7 @@ Enable the Attachments images rotation extension
 
 Test things may doing a test post
 
-If all ok, reset "Recompile stale style components" to no
+Reset "Recompile stale style components" to no
 
 Done
 
