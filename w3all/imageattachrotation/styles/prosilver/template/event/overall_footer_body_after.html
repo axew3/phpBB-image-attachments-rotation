@@ -1,7 +1,6 @@
 <iframe id="w3rFrame" name="w3rFrame" style="display:none;"></iframe>
-
 <script>
-// fire only if if in 'posting mode edit'
+// Only if in 'posting or edit mode'
 var w3ReqMode = "{{ lang('W3IMAGEROTATION_REQMODE') }}";
 
 if( w3ReqMode == 'edit' || w3ReqMode == 'post' ){
@@ -11,10 +10,8 @@ if( w3ReqMode == 'edit' || w3ReqMode == 'post' ){
 			
 // observed for mutations
 const w3targetNode = document.getElementById('file-list'); // need to match on DOM
-// which mutations
 const w3config = { childList: true, subtree: true };
-// callback 
-const callback = function(mutationsList, w3observer) {
+const w3callback = function(mutationsList, w3observer) {
 	
  for(let mutation of mutationsList) {
         
@@ -27,8 +24,8 @@ const callback = function(mutationsList, w3observer) {
      var chref = $(this).children().prop("href");
     if( typeof chref != "undefined" ){
      var switchMode = chref.replace("mode=view", "mode=rImg");
-      $(this).children().next().next().attr("href", switchMode); 
-      $(this).children().next().next().click(function(e){
+     $(this).children().next().next().attr("href", switchMode); // update #w3rFrame also
+     $(this).children().next().next().click(function(e){
       e.preventDefault(e);
       e.stopPropagation(e);
       $("#w3rFrame").attr("src", this.href); 
@@ -37,17 +34,14 @@ const callback = function(mutationsList, w3observer) {
     }
    }
   }
-});
-  } // END for
-};  // END const callback = function(mutationsList, w3observer)
+ });
+ 
+ } // END for
+};  // END callback
 
-// instance linked to the callback function
-const w3observer = new MutationObserver(callback);
-
+const w3observer = new MutationObserver(w3callback);
 // Start observing 
 w3observer.observe(w3targetNode, w3config);
-
-
 	
 	var w3docdomain = "{{ lang('W3IMAGEROTATION_PHPBBCOOKIEDOMAIN') }}";
 	 if( w3docdomain.charAt(0) == '.' ){
@@ -63,34 +57,127 @@ w3observer.observe(w3targetNode, w3config);
     } 
   });
 
-// this should update the new attach ID of the file just rotated to display rotated file and not the previous browser's chached one? 
+// will update the new attach ID of the (new) rotated file (to display the just rotated image file and not the previous browser's chached one)
 function w3_fileSrc_ajaxup(r){
+	
 	res_a = r.split("//#//");
-   if( typeof res_a != "undefined" ){
-	   fn = $.trim(res_a[1]); // filename just processed by fileRotate.php
-	   //fid = $.trim(res_a[2]); // file ID just processed
-	   //fnew_id = $.trim(res_a[3]); // new file ID 
+  if( typeof res_a != "undefined" && $.trim(res_a[3]) > 0 ){
+   	
+	   fn = $.trim(res_a[1]); // filename
+	   fid = $.trim(res_a[2]); // old file ID
+	   fnew_id = $.trim(res_a[3]); // new file ID 
+	   fsize = $.trim(res_a[4]); // filesize 
+	   forphan = $.trim(res_a[5]); // orphan state
+	   fmt = $.trim(res_a[6]); // mimetype
+	   fac = $.trim(res_a[7]); // attach_comment
 	   //fposter_id = $.trim(res_a[4]); // file posterID (user ID)
+	   //console.log('fn= ' + fn + ' - fid= '+fid + ' - fnew_id= '+fnew_id );
 	   
-	  //console.log('fn= ' + fn + ' - fid= '+fid);
+	   // set the new id to the file url
 		$( "td.attach-name > span.file-name a:contains('" + fn + "')" ).each(function () {
-	    console.log('found filename, change href to maatch the new ID (so (maybe) image that display will not be the before cached one)');
+     // update on DOM attachments panel the URL id part of this attach
+     var h = $(this).prop("href");
+     pu = h.split('/download/').pop();
+     v = pu.replace(/id\=[0-9]+/gi, 'id='+fnew_id);
+     rurl = './download/' + v;
+     $( this ).attr("href", rurl); 
 	  })
-	  
-	 }
-	 // close popup
+    
+// change data-attach-id to the actual one and build his new object
+  $( "tr.attach-row[data-attach-id=\'"+fid+"\'" ).each(function () {
+
+	$( this ).attr("data-attach-id", fnew_id); 
+  
+  // re-build Obj of values, substantially the same, except the file id that need to match the new one
+  var w3pushObj = new Object();
+  //Object { attach_id: 224, is_orphan: 1, real_filename: "Armenia.png", attach_comment: "", filesize: 3200 }
+  w3pushObj['attach_id'] = fnew_id;
+  w3pushObj['is_orphan']   = forphan;
+  w3pushObj['real_filename'] = fn;
+  w3pushObj['attach_comment'] = fac;
+  w3pushObj['filesize'] = fsize;
+  
+  // Going to force a re-index of attachments data adding the new fileID
+  // Note that old is removed, and the new added (ever) at position 0 (so placeholders are re-indexed on post)
+  // Go to mimic +- what happen when a new file added: but do not remove element on page and re-add it like when new attach added/uploaded. That could be another way
+
+  
+  var t = phpbb.plupload.data;
+
+  function findItem(ary) {
+   for(var i = 0; i < ary.length; ++i) {
+    var obj = ary[i];
+     if(obj.attach_id == fid) {
+      return i;
+     }
+    }
+     return -1;
+  }
+
+ var i = findItem(t);
+ t.splice(i, 1); // remove old obj
+ t = t.unshift(w3pushObj); // add new
+
+// going to do the following big mess ...
+
+// console.log('I is -> ' +i); // And i've lost my mind for this ...
+
+var	textarea = $('#message', phpbb.plupload.form);
+text = textarea.val();
+var rgx0 = new RegExp('(\\[attachment='+i+'\\].*?\\[\\/attachment\\])', 'g');
+var res0 = rgx0.exec(text);
+
+if(res0){
+//console.log('res0 is -> ' +res0);
+
+var rgx1 = new RegExp('\\[attachment='+i+'\](.*?)\\[\\/attachment\\]', 'g');
+var res1 = rgx1.exec(res0[0]);
+//console.log('res1 is -> ' +res1[1]);
+
+// Add a placeholder to be subsituted after 
+// ... my name is Bond, James Bond 
+text = text.replace(rgx0, '[007JamesBond][attachment='+i+']'+res1[1]+'[/attachment]');
+textarea.val(text);
+//console.log(text);
+//alert('step0');
+}
+
+// let do the dirty work ...
+ phpbb.plupload.update(phpbb.plupload.data, 'removal', i);
+ phpbb.plupload.update(phpbb.plupload.data, 'addition', 0);
+ phpbb.plupload.setData(phpbb.plupload.data);
+
+//console.log(text);
+//alert('step1');
+
+// substitute the placeholder
+if(res0){
+var rgx2 = new RegExp('\\[007JamesBond\\]', 'g');
+rep1 = '[attachment=0]'+res1[1]+'[/attachment]';
+text = textarea.val();
+text = text.replace(rgx2, rep1);
+textarea.val(text);
+//console.log(text);
+}
+
+})
+	 
+}
+
 	  var w3rFrame = document.getElementById("w3rFrame");
         w3rFrame.style.display = "none";
         w3rFrame.src = "";
-} 
+
+} // END // function w3_fileSrc_ajaxup(r){
 
  // This need to match on DOM:
  // <td class="attach-name">
  // <span class="file-name ellipsis-text"><a href="{attach_row.U_VIEW_ATTACHMENT}">{attach_row.FILENAME}</a>
  // on /phpBB/styles/phpBBtheme/template/posting_attach_body.html
+// Add a link to rotate the image. A fontawesome icon would be nice
 $('td.attach-name > span.file-name').each(function () { // need to match on DOM
 	 //$('td.attach-name > span.file-name').mouseover(function () { // test match
-	 //	console.log($(this).text()); // the file name
+	 //	console.log($(this).text());
   filenm = $(this).text();
   if($.trim(filenm)){
    imgext = filenm.split('.').pop().toLowerCase();
@@ -100,33 +187,27 @@ $('td.attach-name > span.file-name').each(function () { // need to match on DOM
    }
   }
 });
-   
+
+// Add a link to rotate the image. A fontawesome icon would be nice
 $(".w3rotate").mouseover(function(e){
 	 var getPrevHref =	$( this ).prev().prev().attr('href'); // need to match on DOM
-	 // console.log(getPrevHref);
+	 //console.log(getPrevHref);
 	 if( typeof getPrevHref == 'undefined' ){
-	  console.log('getPrevHref undefined (overall_footer.html file, rotate js code)');
+	  console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
    } else {
 	  var switchMode = getPrevHref.replace("mode=view", "mode=rImg");
 		$( this ).attr("href", switchMode); 
 	 }
 })
 
-/* $(".w3rotate").click(function(e){
+// $(".w3rotate").click(function(e){
+ $( ".w3rotate" ).bind( "click", function(e) {
     e.preventDefault(e);
     e.stopPropagation(e);
   $("#w3rFrame").attr("src", this.href); 
   $("#w3rFrame").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999","width":"300","height":"350","overflow":"scroll" });
-  })
-*/
-$( ".w3rotate" ).bind( "click", function(e) {
-    e.preventDefault(e);
-    e.stopPropagation(e);
-  $("#w3rFrame").attr("src", this.href); 
-  $("#w3rFrame").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999","width":"300","height":"350","overflow":"scroll" });
-
-});
+ });
 
 }
-// END fire only if if in 'posting mode edit'
+// END fire only if if in 'posting or edit mode'
 </script>
