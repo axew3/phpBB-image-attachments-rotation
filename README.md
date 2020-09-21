@@ -10,8 +10,8 @@ Go to "ACP" > "Customise" > "Extensions" and enable the "Attachments images rota
 
 For jpg/jpeg, gif and png attachments files.
 
-You may wish to know better how it works, so temporary, please check this post:
-https://www.phpbb.com/community/viewtopic.php?p=15591241#p15591241
+You miss version 1.0.0?
+It is available here: https://www.axew3.com/w3/forums/viewtopic.php?p=4815#p4815
 
 ## License
 
