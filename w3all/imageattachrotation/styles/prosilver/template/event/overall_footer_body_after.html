@@ -132,9 +132,9 @@ var rgx1 = new RegExp('\\[attachment='+i+'\](.*?)\\[\\/attachment\\]', 'g');
 var res1 = rgx1.exec(res0[0]);
 //console.log('res1 is -> ' +res1[1]);
 
-// Add a placeholder to be substituted after 
-// ... my name is Bond, James Bond 
-text = text.replace(rgx0, '[007JamesBond][attachment='+i+']'+res1[1]+'[/attachment]');
+// Add a rand placeholder string to be substituted after 
+var rpl = '007JB' + (0|Math.random(6,10)*9e6).toString(36);
+text = text.replace(rgx0, '['+rpl+'][attachment='+i+']'+res1[1]+'[/attachment]');
 textarea.val(text);
 //console.log(text);
 //alert('step0');
@@ -149,7 +149,7 @@ textarea.val(text);
 
 // substitute the placeholder
 if(res0){
-var rgx2 = new RegExp('\\[007JamesBond\\]', 'g');
+var rgx2 = new RegExp('\\['+rpl+'\\]', 'g');
 rep1 = '[attachment=0]'+res1[1]+'[/attachment]';
 text = textarea.val();
 text = text.replace(rgx2, rep1);
