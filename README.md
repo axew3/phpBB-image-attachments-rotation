@@ -37,8 +37,8 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
-## Missing older version 1.0.0?
-It is available here: https://www.axew3.com/w3/forums/viewtopic.php?p=4815#p4815
+## Missing older versions?
+Are available here: https://www.axew3.com/w3/forums/viewtopic.php?p=4815#p4815
 
 ## License
 
