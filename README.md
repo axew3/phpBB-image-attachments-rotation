@@ -2,7 +2,7 @@
 For jpg/jpeg, gif and png attachments files
 ## Version 1.0.3-Dev 
 
-Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested )
+Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
 ## Install
 
