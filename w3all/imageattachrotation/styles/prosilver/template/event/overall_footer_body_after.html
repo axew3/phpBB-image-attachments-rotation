@@ -138,7 +138,7 @@ function w3_fileSrc_ajaxup(r){
 	   //fposter_id = $.trim(res_a[4]); // file posterID (user ID)
 	   //console.log('fn= ' + fn + ' - fid= '+fid + ' - fnew_id= '+fnew_id );
 	   
-	   // set the new id to the file url
+ // set the new id to the file url
     $( "td.attach-name > span.file-name a:contains('" + fn + "')" ).each(function () {
      // update on DOM attachments panel the URL id part of this attach
      var h = $(this).prop("href");
@@ -155,7 +155,7 @@ function w3_fileSrc_ajaxup(r){
   
   // re-build Obj of values, substantially the same, except the file id that need to match the new one
   var w3pushObj = new Object();
-  //Object { attach_id: 224, is_orphan: 1, real_filename: "Armenia.png", attach_comment: "", filesize: 3200 }
+  //Object { attach_id: 224, is_orphan: 1, real_filename: "Italy.png", attach_comment: "", filesize: 3200 }
   w3pushObj['attach_id'] = fnew_id;
   w3pushObj['is_orphan']   = forphan;
   w3pushObj['real_filename'] = fn;
@@ -184,7 +184,6 @@ function w3_fileSrc_ajaxup(r){
  t = t.unshift(w3pushObj); // add new
 
 // placeholders replacement mess ...
-
 // console.log('I is -> ' +i); // And i loosed my mind for this ...
 
 var	textarea = $('#message', phpbb.plupload.form);
