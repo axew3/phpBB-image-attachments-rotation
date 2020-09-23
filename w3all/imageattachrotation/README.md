@@ -1,5 +1,8 @@
 # phpBB attachments images rotation
 For jpg/jpeg, gif and png attachments files
+## Version 1.0.2-Dev 
+
+Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
 ## Install
 
@@ -26,8 +29,6 @@ Upload and copy or overwrite all files as above explained
 
 Set ACP option "Recompile stale style components" to yes
 
-May clean cache into ACP (not sure if this is really needed)
-
 Enable the Attachments images rotation extension
 
 Test things may doing a test post
@@ -36,8 +37,8 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
-## Missing older version 1.0.0?
-It is available here: https://www.axew3.com/w3/forums/viewtopic.php?p=4815#p4815
+## Missing older versions?
+Are available here: https://www.axew3.com/w3/forums/viewtopic.php?p=4815#p4815
 
 ## License
 
