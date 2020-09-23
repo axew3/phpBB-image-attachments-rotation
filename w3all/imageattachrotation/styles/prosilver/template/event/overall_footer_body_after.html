@@ -14,7 +14,7 @@ const w3targetNode = document.getElementById('file-list'); // need to match on D
 const w3config = { childList: true };
 const w3callback = function(mutationsList, w3observer) {
 
-// All the following inside this observer callback, or it won't work
+// All the following goes inside this observer callback, or it won't work
 
  $('td.attach-name > span.file-name').each(function () { // need to match on DOM
  	
@@ -32,8 +32,8 @@ const w3callback = function(mutationsList, w3observer) {
    	ah.className = "w3rotate";
    	ah.href = "javascript:void(0);";
    	ah.appendChild(i);
-   	// Test this adding a file ... 
-   	// before: un-comment the 'alert' and '//this.appendChild(ah);' , so comment 'this.after(p);' to test
+    // Test this adding a file ... 
+    // before: un-comment the 'alert' and '//this.appendChild(ah);' , so comment 'this.after(p);' to test
     // alert('if i stop code execution here, the element display while stopped: let it be understood where the problem is?');
    	
     // Both following ways to add the element fails, wont's work: the appended element, suddenly disappear/removed from DOM, after a while it has been added, without a clear reason to me
@@ -76,10 +76,10 @@ w3observer.observe(w3targetNode, w3config);
 $(function() {
 	
  $('td.attach-name > span.file-name').each(function () { // need to match on DOM
-	// $('td.attach-name > span.file-name').mouseover(function () { // test match
+ // $('td.attach-name > span.file-name').mouseover(function () { // test match
    filenm = $(this).text();
   if($.trim(filenm)){
-   imgext = filenm.split('.').pop().toLowerCase();
+    imgext = filenm.split('.').pop().toLowerCase();
     if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
     $(this).append( '<a class="w3rotate" href="javascript:void(0);"><i style="margin:0px 0px 0px 5px;font-size:70%" class="icon fas fa-undo fa-rotate-270"></i></a>'); 
     }
