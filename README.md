@@ -1,5 +1,6 @@
 # phpBB attachments images rotation
 For jpg/jpeg, gif and png attachments files
+Version 1.0.3-Dev (fully working, tested on 3.3.0)
 
 ## Install
 
