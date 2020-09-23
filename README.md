@@ -29,8 +29,6 @@ Upload and copy or overwrite all files as above explained
 
 Set ACP option "Recompile stale style components" to yes
 
-May clean cache into ACP (not sure if this is really needed)
-
 Enable the Attachments images rotation extension
 
 Test things may doing a test post
