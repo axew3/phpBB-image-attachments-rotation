@@ -36,12 +36,12 @@ const w3callback = function(mutationsList, w3observer) {
    	// before: un-comment the 'alert' and '//this.appendChild(ah);' , so comment 'this.after(p);' to test
     // alert('if i stop code execution here, the element display while stopped: let it be understood where the problem is?');
    	
-   	// Both following ways to add the element fails, wont's work: the appended element, suddenly disappear/removed from DOM, after a while it has been added, without a clear reason to me
-   	// Do You know why?
-   	//this.appendChild(ah); 
+    // Both following ways to add the element fails, wont's work: the appended element, suddenly disappear/removed from DOM, after a while it has been added, without a clear reason to me
+    // Do You know why?
+    //this.appendChild(ah); 
     //$(this).append( '<a class="w3rotate" href="javascript:void(0);"><i style="font-size:60%" class="icon fas fa-undo fa-rotate-270"></i></a>'); 
    	this.after(ah); // work
-   	// a polyfill for some IE version needed here? // this.after(p);
+   	// a polyfill for some IE version needed here? // On IE11> it work fine
    }
   }
  }
