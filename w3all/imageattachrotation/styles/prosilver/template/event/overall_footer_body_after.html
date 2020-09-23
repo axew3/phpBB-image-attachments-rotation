@@ -6,8 +6,8 @@ var w3ReqMode = "{{ lang('W3IMAGEROTATION_REQMODE') }}";
 
 if( w3ReqMode == 'edit' || w3ReqMode == 'post' || w3ReqMode == 'reply' ){
 
-	var imgARY = ["jpg", "jpeg", "gif", "png"];
-	var imgext = filenm = '';
+   var imgARY = ["jpg", "jpeg", "gif", "png"];
+   var imgext = filenm = '';
 
 // observed for mutations
 const w3targetNode = document.getElementById('file-list'); // need to match on DOM
@@ -49,10 +49,9 @@ const w3callback = function(mutationsList, w3observer) {
 }); 
  
   $(".w3rotate").mouseover(function(e){
-
-	 var getPrevHref = $( this ).prev().children().attr('href'); // need to match on DOM
-	 if( typeof getPrevHref == 'undefined' ){
-	  //console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
+     var getPrevHref = $( this ).prev().children().attr('href'); // need to match on DOM
+     if( typeof getPrevHref == 'undefined' ){
+     //console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
    } else {
       var switchMode = getPrevHref.replace("mode=view", "mode=rImg");
       $( this ).attr("href", switchMode);
@@ -62,7 +61,7 @@ const w3callback = function(mutationsList, w3observer) {
       $("#w3rFrame").attr("src", switchMode); 
       $("#w3rFrame").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999","width":"300","height":"350","overflow":"scroll" });
      })
-	 }
+   }
   
   });
 
@@ -88,16 +87,16 @@ $(function() {
  });
  
  $(".w3rotate").mouseover(function(e){
-	// alert('step3'); 
-	 //var getPrevHref =	$( this ).prev().prev().attr('href'); // need to match on DOM
-	 var getPrevHref =	$( this ).prev().attr('href'); // need to match on DOM
-	 console.log(getPrevHref);
-	 if( typeof getPrevHref == 'undefined' ){
-	  console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
+    // alert('step3'); 
+    //var getPrevHref =	$( this ).prev().prev().attr('href'); // need to match on DOM
+    var getPrevHref = $( this ).prev().attr('href'); // need to match on DOM
+    //console.log(getPrevHref);
+    if( typeof getPrevHref == 'undefined' ){
+    //console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
    } else {
-	  var switchMode = getPrevHref.replace("mode=view", "mode=rImg");
-		$( this ).attr("href", switchMode);
-	 }
+     var switchMode = getPrevHref.replace("mode=view", "mode=rImg");
+     $( this ).attr("href", switchMode);
+    }
 })
  
   $( ".w3rotate" ).on( "click", function(e) {
@@ -109,10 +108,10 @@ $(function() {
  
 }) // END $(function() {
 	
-	var w3docdomain = "{{ lang('W3IMAGEROTATION_PHPBBCOOKIEDOMAIN') }}";
-	 if( w3docdomain.charAt(0) == '.' ){
-	  w3docdomain = w3docdomain.substr(1);
-	 }
+   var w3docdomain = "{{ lang('W3IMAGEROTATION_PHPBBCOOKIEDOMAIN') }}";
+    if( w3docdomain.charAt(0) == '.' ){
+      w3docdomain = w3docdomain.substr(1);
+     }
 	 
    document.domain = w3docdomain;
 
@@ -230,9 +229,9 @@ textarea.val(text);
 	 
 }
 
-	var w3rFrame = document.getElementById("w3rFrame");
-        w3rFrame.style.display = "none";
-        w3rFrame.src = "";
+  var w3rFrame = document.getElementById("w3rFrame");
+  w3rFrame.style.display = "none";
+  w3rFrame.src = "";
 
 } // END // function w3_fileSrc_ajaxup(r){
 } // END fire only if if in 'posting or edit mode'
