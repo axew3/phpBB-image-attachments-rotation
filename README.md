@@ -27,9 +27,9 @@ It is the file rotate_popup.html, which you can find into:
 Note that you need to respect the DOM in this file, that start with a <style> tag 
 
 <style> .... </style>
- ... ...
+   ... ... ...
 
-If you edit this file, respect elements DOM assets.
+# If you edit this file, respect elements DOM assets.
 
 
 ## Update/install: 
