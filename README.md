@@ -31,7 +31,7 @@ Note that you need to respect the normal/correct html DOM in this file, that (an
 <style> .... </style>
    ... ... ...
    
- It do not contain the starting <body><head> tags, and you do not have to add them.
+ It do not contain the starting 'body' and 'head' tags, and you do not have to add them.
    
 #### If you edit the file rotate_popup.html, respect his elements DOM assets.
 
