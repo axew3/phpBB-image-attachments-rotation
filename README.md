@@ -26,7 +26,7 @@ It is the file rotate_popup.html, which you can find into:
 
 /ext/w3all/imageattachrotation/styles/prosilver/template/event/rotate_popup.html
 
-Note that you need to respect the DOM in this file, that start with a <style> tag 
+Note that you need to respect the normal/correct html DOM in this file, that (anyway) start with a <style> tag 
 
 <style> .... </style>
    ... ... ...
