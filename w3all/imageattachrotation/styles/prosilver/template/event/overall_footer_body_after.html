@@ -19,7 +19,7 @@ const w3callback = function(mutationsList, w3observer) {
  $('td.attach-name > span.file-name').each(function () { // need to match on DOM
  	
  if(! $(this).children().prop("href") ){ // do not re-add, if already existent/added // need to match on DOM
-  filenm = $(this).text();
+  var filenm = $(this).text();
   if($.trim(filenm)){
    imgext = filenm.split('.').pop().toLowerCase();
    if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
