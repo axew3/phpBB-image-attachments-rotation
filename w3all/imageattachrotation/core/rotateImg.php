@@ -141,54 +141,24 @@ function w3sendThis(){
   XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   XHR.send(urlEncodedDataPairs);
 }
-</script>
-<style>
-.w3Body{
-background: -moz-linear-gradient(left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(left, rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.9) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to right, rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.9) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=\'#e6000000\', endColorstr=\'#e6000000\',GradientType=1 ); /* IE6-9 */
-color:#f1f1f1;
-    max-width: 100%;
-    height: auto;
-    width: auto\9; /* ie8 */
-}
-img{
-    max-width: 100%;
-    height: auto;
-    width: auto\9; /* ie8 */
-    padding:10px;
-    margin:0px;
-}
+</script>';
 
-button {
-  background-color:#000;
-} 
-button:hover {
-  background-color:green;
-}
+// 'rotate_popup.html' is the html file parsed, that so any user can edit how more like
+// /phpBB3/ext/w3all/imageattachrotation/styles/prosilver/template/event/rotate_popup.html
+// Could be added also the above, but may it is too complicated for the most, so it start from
+// <style> .... </style>
+// </head>
+// <body class="w3Body">
 
-.w3divCont{
-text-align:center;
-padding:15px;
-color:#f1f1f1;
-}
+// Assign lang values to be replaced on popup template rotate_popup.html placeholders
 
-.w3divimg{
-text-align:center;
-padding:0px;
-margin:0px;
-}
+$W3POPUP_TEXTEXPLAIN = $user->lang['W3POPUP_TEXTEXPLAIN'];
+$W3_P_IMGURI = img_data_uri($imgOut, 'image/'.$attachment['extension']);
+$W3POPUP_BUTTONTEXT = $user->lang['W3POPUP_BUTTONTEXT'];
 
-.w3Bround{
-/*font-size:1.2em;*/
-border-radius: 8px;
-}
-</style></head>
-<body class="w3Body">';
-echo'<div class="w3divContainer">';
-echo '<div class="w3divCont"><strong>'.$user->lang['W3POPUP_TEXTEXPLAIN'].'</strong></div>';
-echo'<div class="w3divimg"><img id="w3-img-rotate" src="'.img_data_uri($imgOut, 'image/'.$attachment['extension'].'').'" onclick="w3rotateByDeg(this)" /></div>';
-echo'<div class="w3divCont"><button class="w3divCont w3Bround" type="submit" id="btn" onclick="w3sendThis();">'.$user->lang['W3POPUP_BUTTONTEXT'].'</button></div>';
-echo'</div></body></html>';
+$out0 = file_get_contents($phpbb_root_path.'ext/w3all/imageattachrotation/styles/prosilver/template/event/rotate_popup.html', false);
+
+$ls = array("{W3POPUP_TEXTEXPLAIN}", "{W3_P_IMGURI}", "{W3POPUP_BUTTONTEXT}", chr(0));
+$lsr = array($W3POPUP_TEXTEXPLAIN, $W3_P_IMGURI, $W3POPUP_BUTTONTEXT, '');
+echo str_replace($ls, $lsr, $out0);
 exit;
