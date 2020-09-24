@@ -30,11 +30,8 @@ Note that you need to respect the normal/correct html DOM in this file, that (an
 
 <style> .... </style>
    ... ... ...
-   
- It do not contain the starting 'html' and 'head' tags, and you do not have to add them (already added earlier)
-   
-#### If you edit the file rotate_popup.html, respect this DOM assets.
 
+#### It do not contain the starting 'html' and 'head' tags, and you do not have to add them (already added earlier)
 
 ## Update/install: 
 
