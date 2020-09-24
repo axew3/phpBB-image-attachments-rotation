@@ -77,7 +77,7 @@ $(function() {
 	
  $('td.attach-name > span.file-name').each(function () { // need to match on DOM
  // $('td.attach-name > span.file-name').mouseover(function () { // test match
-   filenm = $(this).text();
+  var filenm = $(this).text();
   if($.trim(filenm)){
     imgext = filenm.split('.').pop().toLowerCase();
     if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
