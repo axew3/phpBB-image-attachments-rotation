@@ -23,13 +23,17 @@ Done
 ## How do i can style the rotation popup?
 
 It is the file rotate_popup.html, which you can find into:
+
 /ext/w3all/imageattachrotation/styles/prosilver/template/event/rotate_popup.html
-Note that you need to respect the DOM in this file, that start with a <style> tag 
+
+Note that you need to respect the normal/correct html DOM in this file, that (anyway) start with a <style> tag 
 
 <style> .... </style>
    ... ... ...
-
-#### If you edit the file rotate_popup.html, respect his elements DOM assets.
+   
+ It do not contain the starting 'body' and 'head' tags, and you do not have to add them (already added earlier)
+   
+#### If you edit the file rotate_popup.html, respect this DOM assets.
 
 
 ## Update/install: 
