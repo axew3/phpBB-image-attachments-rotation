@@ -1,0 +1,50 @@
+<style>
+.w3Body{
+background: -moz-linear-gradient(left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left, rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.9) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right, rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.9) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6000000', endColorstr='#e6000000',GradientType=1 ); /* IE6-9 */
+color:#f1f1f1;
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+}
+img{
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+    padding:10px;
+    margin:0px;
+}
+
+button {
+  background-color:#000;
+} 
+button:hover {
+  background-color:green;
+}
+
+.w3divCont{
+text-align:center;
+padding:15px;
+color:#f1f1f1;
+}
+
+.w3divimg{
+text-align:center;
+padding:0px;
+margin:0px;
+}
+
+.w3Bround{
+/*font-size:1.2em;*/
+border-radius: 8px;
+}
+</style>
+</head>
+<body class="w3Body">
+<div class="w3divContainer">
+<div class="w3divCont"><strong>{W3POPUP_TEXTEXPLAIN}</strong></div>
+<div class="w3divimg"><img id="w3-img-rotate" src="{W3_P_IMGURI}" onclick="w3rotateByDeg(this)" /></div>
+<div class="w3divCont"><button class="w3divCont w3Bround" type="submit" id="btn" onclick="w3sendThis();">{W3POPUP_BUTTONTEXT}</button></div>
+</div></body></html>
