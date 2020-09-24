@@ -20,6 +20,19 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
+## How do i can style the rotation popup?
+
+It is the file rotate_popup.html, which you can find into:
+/ext/w3all/imageattachrotation/styles/prosilver/template/event/rotate_popup.html
+Note that you need to respect the DOM in this file, that start with a <style> tag 
+
+<style> .... </style>
+</head>
+<body> .... </body>
+</html>
+
+If you edit this file, respect elements assets.
+
 
 ## Update/install: 
 
