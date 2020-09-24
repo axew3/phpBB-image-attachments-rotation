@@ -1,6 +1,6 @@
 # phpBB attachments images rotation
 For jpg/jpeg, gif and png attachments files
-## Version 1.0.2-Dev 
+## Version 1.0.3
 
 Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
@@ -19,6 +19,17 @@ Test things may doing a test post
 If all ok, reset "Recompile stale style components" to no
 
 Done
+
+## How do i can style the rotation popup?
+
+It is the file rotate_popup.html, which you can find into:
+/ext/w3all/imageattachrotation/styles/prosilver/template/event/rotate_popup.html
+Note that you need to respect the DOM in this file, that start with a <style> tag 
+
+<style> .... </style>
+   ... ... ...
+
+#### If you edit the file rotate_popup.html, respect his elements DOM assets.
 
 
 ## Update/install: 
