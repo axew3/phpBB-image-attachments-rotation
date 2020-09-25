@@ -123,7 +123,9 @@ function w3sendThis(){
    });
    XHR.onreadystatechange = function() {
     if (XHR.readyState === 0 || XHR.readyState === 1) { 
-      //console.log(XHR.response + " starting");
+     var btn = document.getElementById("btn"); 
+     btn.disabled = true;
+     btn.innerHTML = "Processing...";
     } else if (XHR.readyState === 3) {
     	//console.log(XHR.response + " waiting");
     } else if (XHR.readyState === 4) { // onload -> done
