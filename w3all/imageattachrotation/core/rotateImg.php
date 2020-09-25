@@ -125,7 +125,7 @@ function w3sendThis(){
     if (XHR.readyState === 0 || XHR.readyState === 1) { 
      var btn = document.getElementById("btn"); 
      btn.disabled = true;
-     btn.innerHTML = "Processing...";
+     btn.innerHTML = "'.$user->lang['W3POPUP_PROCESS'].'";
     } else if (XHR.readyState === 3) {
     	//console.log(XHR.response + " waiting");
     } else if (XHR.readyState === 4) { // onload -> done
