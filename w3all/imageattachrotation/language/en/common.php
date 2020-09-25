@@ -45,6 +45,7 @@ $lang = array_merge($lang, array(
 	'W3POPUP_TEXTEXPLAIN' => 'Click over the image to rotate',
 	'W3POPUP_BUTTONTEXT' => 'Save image',
 	'W3POPUP_ALERT' => 'Click into image to rotate it, then Save!',
+	'W3POPUP_PROCESS' => 'Processing...',
 	
 	// may DO NOT edit here below
 	'W3IMAGEROTATION_PHPBBCOOKIEDOMAIN'	=> $config['cookie_domain'],
