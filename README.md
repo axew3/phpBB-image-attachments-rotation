@@ -55,3 +55,10 @@ Are available here: https://www.axew3.com/w3/forums/viewtopic.php?p=4815#p4815
 ## License
 
 [GPLv2](license.txt)
+
+
+
+You have to insert it as image into your README. If your README is markdown (README.md) that should be like:
+
+[![Github All Releases](https://img.shields.io/github/downloads/axew3/phpBB-image-attachments-rotation/total.svg)]()
+
