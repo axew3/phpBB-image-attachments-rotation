@@ -51,9 +51,8 @@ Done
 
 ## Missing older versions?
 ## Check all images attachments releases at [axew3.com](https://www.axew3.com):
-[phpbb images attachments rotation](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1580 "phpbb images attachments rotation")
+## [phpbb images attachments rotation - all releases](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1580 "phpbb images attachments rotation")
 
-Are available here: https://www.axew3.com/w3/forums/viewtopic.php?p=4815#p4815
 
 ## License
 
