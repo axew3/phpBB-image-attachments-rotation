@@ -50,15 +50,10 @@ If all ok, reset "Recompile stale style components" to no
 Done
 
 ## Missing older versions?
-Are available here: https://www.axew3.com/w3/forums/viewtopic.php?p=4815#p4815
+## Check all images attachments releases at [axew3.com](https://www.axew3.com):
+## [phpbb images attachments rotation - all releases](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1580 "phpbb images attachments rotation")
+
 
 ## License
 
 [GPLv2](license.txt)
-
-
-
-You have to insert it as image into your README. If your README is markdown (README.md) that should be like:
-
-[![Github All Releases](https://img.shields.io/github/downloads/axew3/phpBB-image-attachments-rotation/total.svg)]()
-
