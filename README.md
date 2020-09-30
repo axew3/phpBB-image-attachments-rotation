@@ -59,8 +59,3 @@ Done
 [GPLv2](license.txt)
 
 
-
-You have to insert it as image into your README. If your README is markdown (README.md) that should be like:
-
-[![Github All Releases](https://img.shields.io/github/downloads/axew3/phpBB-image-attachments-rotation/total.svg)]()
-
