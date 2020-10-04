@@ -8,12 +8,12 @@ if( w3ReqMode == 'edit' || w3ReqMode == 'post' || w3ReqMode == 'reply' ){
    var imgARY = ["jpg", "jpeg", "gif", "png"];
    var imgext = filenm = '';
 
-// observed for mutations
+// observed
 const w3targetNode = document.getElementById('file-list'); // need to match on DOM
 const w3config = { childList: true };
 const w3callback = function(mutationsList, w3observer) {
 
-// All the following goes inside this observer callback, or it won't work
+// All the following goes inside observer callback, or it won't work
 
  $('td.attach-name > span.file-name').each(function () { // need to match on DOM
  	
