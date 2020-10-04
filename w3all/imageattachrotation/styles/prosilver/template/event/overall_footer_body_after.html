@@ -67,9 +67,9 @@ const w3callback = function(mutationsList, w3observer) {
 
 };  // END observer callback
 
-const w3observer = new MutationObserver(w3callback);
 // Start observing 
 if( w3targetNode !== null ){
+ const w3observer = new MutationObserver(w3callback);
  w3observer.observe(w3targetNode, w3config);
 }
 
