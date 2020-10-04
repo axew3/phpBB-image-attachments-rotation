@@ -1,11 +1,9 @@
 <iframe id="w3rFrame" name="w3rFrame" style="display:none;"></iframe>
 <script>
 // Lifetime copyleft -> axew3.com 
-// Only if in 'posting, edit or reply mode' and the user is logged in
-
+// Only if in 'posting, edit or reply mode'
 var w3ReqMode = "{{ lang('W3IMAGEROTATION_REQMODE') }}";
-var w3_u_logged = "{S_USER_LOGGED_IN}";
-if( w3_u_logged > 0 && w3ReqMode == 'edit' || w3_u_logged > 0 && w3ReqMode == 'post' || w3_u_logged > 0 && w3ReqMode == 'reply' ){
+if( w3ReqMode == 'edit' || w3ReqMode == 'post' || w3ReqMode == 'reply' ){
 
    var imgARY = ["jpg", "jpeg", "gif", "png"];
    var imgext = filenm = '';
