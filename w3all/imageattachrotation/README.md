@@ -20,12 +20,12 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
-## phpBB cookie domain
+## phpBB cookie domain note
 Note that the setting 
 #### ACP -> Security settings -> Cookie domain:
-Need to be set properly. Leaving this setting empty, lead to make it fail the js code of the popup.
+#### Need to be set properly. Leaving this setting empty, lead to make it fail the js code of the popup.
 
-For example, on *localhost*, set it as *localhost*, or if into online site, *site.com* or *site.co.uk* or *mysubdomain.mysite.com* etc 
+For example, on *localhost*, set it as *localhost*, or if into online site, *mysite.com* or *my-site.co.uk* or *mysubdomain.mysite.com* etc 
 
 ## How do i can style the rotation popup?
 
@@ -37,7 +37,7 @@ Note that you need to respect the normal/correct html DOM in this file, that (an
 
 <style> .... </style>
    ... ... ...
-
+   
 #### It do not contain the starting 'html' and 'head' tags, and you do not have to add them (already added earlier)
 
 ## Update/install: 
@@ -57,8 +57,8 @@ If all ok, reset "Recompile stale style components" to no
 Done
 
 ## Missing older versions?
-## Check all images attachments releases at [axew3.com](https://www.axew3.com):
-## [phpbb images attachments rotation - all releases](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1580 "phpbb images attachments rotation")
+### Check all images attachments releases at [axew3.com](https://www.axew3.com):
+### [phpbb images attachments rotation - all releases](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1580 "phpbb images attachments rotation")
 
 
 ## License
