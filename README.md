@@ -20,7 +20,7 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
-## phpBB cookie domain
+## phpBB cookie domain note
 Note that the setting 
 #### ACP -> Security settings -> Cookie domain:
 #### Need to be set properly. Leaving this setting empty, lead to make it fail the js code of the popup.
