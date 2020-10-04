@@ -20,6 +20,13 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
+## phpBB cookie domain
+Note that the setting 
+#### ACP -> Security settings -> Cookie domain:
+Need to be set properly. Leaving this setting empty, lead to make it fail the js code of the popup.
+
+For example, on localhost, set it as localhost, or if into online site, site.com or site.co.uk or mysubdomain.mysite.com etc 
+
 ## How do i can style the rotation popup?
 
 It is the file rotate_popup.html, which you can find into:
