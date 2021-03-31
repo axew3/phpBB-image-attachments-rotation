@@ -25,21 +25,24 @@ Done
 It should fit your theme, anyway you can easily change and style it into:
 
 ## HTML:
-/ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
+    
+    /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
 
 (note that you (maybe) do NOT have to change w3classes and w3ids for html elements, or the javascript code will not work) 
 the html code snippet is on top of the file
 
 ## CSS:
 
-/ext/w3all/imageattachrotation/styles/prosilver/template/css/style.css
+    /ext/w3all/imageattachrotation/styles/prosilver/template/css/style.css
 
 
 ## Update/install: 
 
 If updating, disable the old version and delete data into ACP Extensions Manager
 
-Remove the folder /ext/w3all/imageattachrotation
+Remove the folder 
+    
+    /ext/w3all/imageattachrotation
 
 Set ACP option "Recompile stale style components" to yes
 
@@ -53,11 +56,11 @@ Done
 
 #### How do i can choose to prepend or append the rotate icon?
 
-/ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
+    /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
 
 search for line (+- on top): 
 
-var Pw3A = 1; // 0 Append icon, 1 Prepend icon (require to rebuild the phpBB template)
+     var Pw3A = 1; // 0 Append icon, 1 Prepend icon (require to rebuild the phpBB template)
 
 ## Missing older versions?
 ### Check all images attachments releases at [axew3.com](https://www.axew3.com):
