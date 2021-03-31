@@ -51,6 +51,14 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
+#### How do i can choose to prepend or append the rotate icon?
+
+/ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
+
+search for line (+- on top): 
+
+var Pw3A = 1; // 0 Append icon, 1 Prepend icon (require to rebuild the phpBB template)
+
 ## Missing older versions?
 ### Check all images attachments releases at [axew3.com](https://www.axew3.com):
 ### [phpbb images attachments rotation - all releases](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1580 "phpbb images attachments rotation")
