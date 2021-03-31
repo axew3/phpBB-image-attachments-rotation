@@ -39,7 +39,7 @@ the html code snippet is on top of the file
 
 If updating, disable the old version and delete data into ACP Extensions Manager
 
-Upload and copy or overwrite all files as above explained
+Remove the folder /ext/w3all/imageattachrotation
 
 Set ACP option "Recompile stale style components" to yes
 
