@@ -18,7 +18,7 @@ Remove the folder
     
     /ext/w3all/imageattachrotation
 
-so follow installing the new 1.0.4
+then follow installing the new 1.0.4
 
 ## Install
 
