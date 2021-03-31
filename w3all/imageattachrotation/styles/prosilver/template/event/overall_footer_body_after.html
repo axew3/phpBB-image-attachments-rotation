@@ -1,132 +1,90 @@
-<iframe id="w3rFrame" name="w3rFrame" style="display:none;"></iframe>
+<!-- IF W3IMAGEROTATION_YN_A or S_QUICK_REPLY -->
+
+<div id="w3rPopup" class="w3rPopupContainer text-center inputbox" style="display:none">
+<table class="w3wrapTABC">
+<tr><td class="w3wrapTDC">
+<div class="w3divContainer">
+<div class="w3divCont"><strong>{{ lang('W3POPUP_TEXTEXPLAIN') }}</strong></div>
+<div class="w3divimg"><img id="w3-img-rotate" src="" onclick="w3rotateByDeg(this);" /></div>
+<div class="w3divCont"><button class="w3divCont button" type="submit" id="w3btn" onclick="w3sendThis(document.getElementById('w3-img-rotate'));">{{ lang('W3POPUP_BUTTONTEXT') }}</button></div>
+</div>
+</td></tr></table>
+</div>
+
 <script>
-// Lifetime copyleft -> axew3.com 
-// Only if in 'posting, edit or reply mode'
-var w3ReqMode = "{{ lang('W3IMAGEROTATION_REQMODE') }}";
-if( w3ReqMode == 'edit' || w3ReqMode == 'post' || w3ReqMode == 'reply' || w3ReqMode == 'compose' ){
+// axew3.com
+  var w3Delta = 0;
+  var countW3 = 0;
+  var w3btn = document.getElementById("w3btn");
+  var Pw3A = 1; // 0 Append icon, 1 Prepend icon (require to rebuild the phpBB template)
 
-   var imgARY = ["jpg", "jpeg", "gif", "png"];
-   var imgext = filenm = '';
-
-// observed
-const w3targetNode = document.getElementById('file-list'); // need to match on DOM
-const w3config = { childList: true };
-const w3callback = function(mutationsList, w3observer) {
-
-// All the following goes inside observer callback, or it won't work
-
- $('td.attach-name > span.file-name').each(function () { // need to match on DOM
- 	
- if(! $(this).children().prop("href") ){ // do not re-add, if already existent/added // need to match on DOM
-  var filenm = $(this).text();
-  if($.trim(filenm)){
-   imgext = filenm.split('.').pop().toLowerCase();
-   if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
-   	var i = document.createElement("i");
-   	i.className = "icon fas fa-undo fa-rotate-270";
-   	i.style = "font-size:70%;margin:0px 0px 0px 5px;";
-   	
-   	var txt = document.createTextNode("&nbsp;");
-   	var ah = document.createElement("a");
-   	ah.className = "w3rotate";
-   	ah.href = "javascript:void(0);";
-   	ah.appendChild(i);
-    // Test this adding a file ... 
-    // before: un-comment the 'alert' and '//this.appendChild(ah);' , so comment 'this.after(p);' to test
-    // alert('if i stop code execution here, the element display while stopped: let it be understood where the problem is?');
-   	
-    // Both following ways to add the element fails, wont's work: the appended element, suddenly disappear/removed from DOM, after a while it has been added, without a clear reason to me
-    // Do You know why?
-    //this.appendChild(ah); 
-    //$(this).append( '<a class="w3rotate" href="javascript:void(0);"><i style="font-size:60%" class="icon fas fa-undo fa-rotate-270"></i></a>'); 
-   	this.after(ah); // work
-   	// a polyfill for some IE version needed here? // On IE11> it work fine
+   function w3rotateByDeg(e){
+     w3Delta+=90;
+     e.style.webkitTransform="rotate("+w3Delta+"deg)";
+     e.style.transform = "rotate("+w3Delta+"deg)";
+     if(w3Delta > 270){w3Delta = 0};
+     countW3++;
    }
-  }
+
+function w3sendThis(attach){
+
+ if( countW3 < 1 || w3Delta == 0 ){ 
+  alert("{{ lang('W3POPUP_ALERT') }}");
+  return;
  }
 
-}); 
- 
-  $(".w3rotate").mouseover(function(e){
-     var getPrevHref = $( this ).prev().children().attr('href'); // need to match on DOM
-     if( typeof getPrevHref == 'undefined' ){
-     //console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
-   } else {
-      var switchMode = getPrevHref.replace("mode=view", "mode=rImg");
-      $( this ).attr("href", switchMode);
-      $(this).click(function(e){
-      e.preventDefault(e);
-      e.stopPropagation(e);
-      $("#w3rFrame").attr("src", switchMode); 
-      $("#w3rFrame").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999","width":"300","height":"350","overflow":"scroll" });
-     })
+ var attachID = attach.src.split('id=');
+
+ let ARY = [];
+ ARY[0] = w3Delta;
+ ARY[1] = attachID[1];
+
+ values =  JSON.stringify(ARY);
+
+  var XHR = new XMLHttpRequest();
+  var urlEncodedData = "";
+  var urlEncodedDataPairs = [];
+
+ urlEncodedDataPairs.push(encodeURIComponent("data") + "=" + encodeURIComponent(ARY));
+
+   XHR.addEventListener("error", function(event) {
+    console.log("Error: " + event);
+   });
+   XHR.addEventListener("timeout", function(event) {
+    console.log("Error: timeout");
+   });
+   XHR.onreadystatechange = function() {
+    if (XHR.readyState === 0 || XHR.readyState === 1) { 
+     w3btn.disabled = true;
+     w3btn.innerHTML = "{{ lang('W3POPUP_PROCESS') }}";
+    } else if (XHR.readyState === 3) {
+    	//console.log(XHR.response + " waiting");
+    } else if (XHR.readyState === 4) { // onload -> done
+        w3_fileSrc_ajaxup(XHR.response);
+        w3btn.removeAttribute("disabled");
+        w3btn.innerHTML = "{{ lang('W3POPUP_BUTTONTEXT') }}";
+        w3Delta = countW3 = 0; // reset to actual 0 degrees: may another rotation will occur
+      }
    }
-  
-  });
 
-};  // END observer callback
-
-// Start observing 
-if( w3targetNode !== null ){
- const w3observer = new MutationObserver(w3callback);
- w3observer.observe(w3targetNode, w3config);
+  XHR.open("POST", "{BOARD_URL}ext/w3all/imageattachrotation/core/fileRotate.php");
+  XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  XHR.send(urlEncodedDataPairs);
 }
 
-$(function() {
-	
- $('td.attach-name > span.file-name').each(function () { // need to match on DOM
- // $('td.attach-name > span.file-name').mouseover(function () { // test match
-  var filenm = $(this).text();
-  if($.trim(filenm)){
-    imgext = filenm.split('.').pop().toLowerCase();
-    if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
-    $(this).append( '<a class="w3rotate" href="javascript:void(0);"><i style="margin:0px 0px 0px 5px;font-size:70%" class="icon fas fa-undo fa-rotate-270"></i></a>'); 
-    }
-   }
- });
- 
- $(".w3rotate").mouseover(function(e){
-    // alert('step3'); 
-    //var getPrevHref =	$( this ).prev().prev().attr('href'); // need to match on DOM
-    var getPrevHref = $( this ).prev().attr('href'); // need to match on DOM
-    //console.log(getPrevHref);
-    if( typeof getPrevHref == 'undefined' ){
-    //console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
-   } else {
-     var switchMode = getPrevHref.replace("mode=view", "mode=rImg");
-     $( this ).attr("href", switchMode);
-    }
-})
- 
-  $( ".w3rotate" ).on( "click", function(e) {
-    e.preventDefault(e);
-    e.stopPropagation(e);
-  $("#w3rFrame").attr("src", this.href); 
-  $("#w3rFrame").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999","width":"300","height":"350","overflow":"scroll" });
- });
- 
-}) // END $(function() {
-	
-   var w3docdomain = "{{ lang('W3IMAGEROTATION_PHPBBCOOKIEDOMAIN') }}";
-    if( w3docdomain.charAt(0) == '.' ){
-      w3docdomain = w3docdomain.substr(1);
-     }
-	 
-   document.domain = w3docdomain;
-
-  $(document).mouseup(function (e) {
-   if ($(e.target).closest(".w3rFrame").length === 0) { 
-     $("#w3rFrame").css("display", "none");
-     $("#w3rFrame").attr("src", "");
-    } 
-  });
-
-// will update the new attach ID of the (new) rotated file (to display the just rotated image file and not the previous browser's chached one)
+// will update the new attach ID of the (new) rotated file (to display the just rotated image file and not the previous browser's cached one)
 function w3_fileSrc_ajaxup(r){
-	//alert('step0');
-	res_a = r.split("//#//");
+
+	var res_a = r.split("//#//");
+	var res_b = r.split("W3ERROR_")
+
+	 if( typeof res_b[1] != "undefined" ){
+ 		 alert(res_b[1]); // there is an error
+ 		 return;
+   }
+
   if( typeof res_a != "undefined" && $.trim(res_a[3]) > 0 ){
-   	
+
 	   fn = $.trim(res_a[1]); // filename
 	   fid = $.trim(res_a[2]); // old file ID
 	   fnew_id = $.trim(res_a[3]); // new file ID 
@@ -134,9 +92,7 @@ function w3_fileSrc_ajaxup(r){
 	   forphan = $.trim(res_a[5]); // orphan state
 	   fmt = $.trim(res_a[6]); // mimetype
 	   fac = $.trim(res_a[7]); // attach_comment
-	   //fposter_id = $.trim(res_a[4]); // file posterID (user ID)
-	   //console.log('fn= ' + fn + ' - fid= '+fid + ' - fnew_id= '+fnew_id );
-	   
+  
  // set the new id to the file url
     $( "td.attach-name > span.file-name a:contains('" + fn + "')" ).each(function () {
      // update on DOM attachments panel the URL id part of this attach
@@ -146,12 +102,12 @@ function w3_fileSrc_ajaxup(r){
      rurl = './download/' + v;
      $( this ).attr("href", rurl); 
     })
-    
+
 // change data-attach-id to the actual one and build his new object
   $( "tr.attach-row[data-attach-id=\'"+fid+"\'" ).each(function () {
 
 	$( this ).attr("data-attach-id", fnew_id); 
-  
+
   // re-build Obj of values, substantially the same, except the file id that need to match the new one
   var w3pushObj = new Object();
   //Object { attach_id: 224, is_orphan: 1, real_filename: "Italy.png", attach_comment: "", filesize: 3200 }
@@ -160,10 +116,10 @@ function w3_fileSrc_ajaxup(r){
   w3pushObj['real_filename'] = fn;
   w3pushObj['attach_comment'] = fac;
   w3pushObj['filesize'] = fsize;
-  
+
   // Going to force a re-index of attachments data adding the new fileID
   // Note that old is removed, and the new added (ever) at position 0 (so placeholders are re-indexed on post)
-  // Go to mimic +- what happen when a new file added: but do not remove element on page and re-add it like when new attach added/uploaded. That could be another way
+  // Go to mimic +- what happen when a new file added: but do not remove dom element on page re-adding it, like when new attach added/uploaded. That could be another way
 
   var t = phpbb.plupload.data;
 
@@ -190,27 +146,20 @@ var rgx0 = new RegExp('(\\[attachment='+i+'\\].*?\\[\\/attachment\\])', 'g');
 var res0 = rgx0.exec(text);
 
 if(res0){
-//console.log('res0 is -> ' +res0);
 
-var rgx1 = new RegExp('\\[attachment='+i+'\](.*?)\\[\\/attachment\\]', 'g');
-var res1 = rgx1.exec(res0[0]);
-//console.log('res1 is -> ' +res1[1]);
+ var rgx1 = new RegExp('\\[attachment='+i+'\](.*?)\\[\\/attachment\\]', 'g');
+ var res1 = rgx1.exec(res0[0]);
 
-// Add a rand placeholder string to be substituted after. My name is Bond, James Bond ... 
-var rpl = '007JB' + (0|Math.random(6,10)*9e6).toString(36);
+// Add a rand placeholder string to be replaced after. My name is Bond, James Bond ... 
+ var rpl = '007JB-w3all' + (0|Math.random(6,10)*9e6).toString(36);
 
-text = text.replace(rgx0, '['+rpl+'][attachment='+i+']'+res1[1]+'[/attachment]');
-textarea.val(text);
-//console.log(text);
-//alert('step1');
+ text = text.replace(rgx0, '['+rpl+'][attachment='+i+']'+res1[1]+'[/attachment]');
+ textarea.val(text);
 }
 
  phpbb.plupload.update(phpbb.plupload.data, 'removal', i);
  phpbb.plupload.update(phpbb.plupload.data, 'addition', 0);
  phpbb.plupload.setData(phpbb.plupload.data);
-
-//console.log(text);
-//alert('step2');
 
 // substitute the placeholder
 if(res0){
@@ -219,17 +168,160 @@ rep1 = '[attachment=0]'+res1[1]+'[/attachment]';
 text = textarea.val();
 text = text.replace(rgx2, rep1);
 textarea.val(text);
-//console.log(text);
 }
 
 })
-	 
+
 }
 
-  var w3rFrame = document.getElementById("w3rFrame");
-  w3rFrame.style.display = "none";
-  w3rFrame.src = "";
+  var w3rPopup = document.getElementById("w3rPopup");
+  document.getElementById("w3-img-rotate").src = "";
+  $("#w3-img-rotate").removeAttr("style");
+  w3rPopup.style.display = "none";
 
 } // END // function w3_fileSrc_ajaxup(r){
-} // END fire only if in 'posting, reply or edit mode'
+
+   var imgARY = ["jpg", "jpeg", "gif", "png"];
+   var imgext = filenm = '';
+
+// observed
+const w3targetNode = document.getElementById('file-list'); // need to match on DOM
+const w3config = { childList: true };
+
+const w3callback = function(mutationsList, w3observer) {
+
+// All the following goes inside observer callback (or it won't work)
+
+ $('td.attach-name > span.file-name').each(function () { // need to match on DOM
+
+ if(! $(this).children().prop("href") ){ // do not re-add, if already existent/added // need to match on DOM
+  var filenm = $(this).text();
+  if($.trim(filenm)){
+   imgext = filenm.split('.').pop().toLowerCase();
+   if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
+   	var i = document.createElement("i");
+   	i.className = "icon fas fa-undo fa-rotate-270";
+   	if(Pw3A == 0){ // append
+   	 i.style = "font-size:100%;margin:0px 0px 0px 5px;";
+   	} else { // prepend
+   		 i.style = "font-size:100%;margin:0px 5px 0px 0px;";
+   	  }
+
+   	var txt = document.createTextNode("&nbsp;");
+   	var ah = document.createElement("a");
+   	ah.className = "w3rotate";
+   	ah.href = "javascript:void(0);";
+   	ah.appendChild(i);
+
+    // Test this adding a file ... 
+    // before: un-comment the 'alert' and '//this.appendChild(ah);' , so comment 'this.after(p);' to test
+    // alert('if i stop code execution here, the element display while stopped: let it understand where the problem is?');
+
+    // Both following ways to add the element fails: the appended element, suddenly disappear/removed from DOM, after a while it has been added, without a clear reason to me
+    // Do You know why?
+    //this.appendChild(ah); 
+    //$(this).append( '<a class="w3rotate" href="javascript:void(0);"><i style="font-size:60%" class="icon fas fa-undo fa-rotate-270"></i></a>'); 
+	
+   	if(Pw3A == 0){ // append
+   	 this.after(ah); // work
+   	} else { // prepend
+   		 this.before(ah); // work
+   	  }
+   	// a polyfill for some IE version needed here? // On IE11> it work fine
+   }
+  }
+ }
+
+}); 
+
+  $(".w3rotate").mouseover(function(e){
+  	//console.log('observer on');
+  	if(Pw3A == 0){ // appended
+  		var getHref = $( this ).prev().children().attr('href'); // need to match on DOM
+  	} else {
+      var getHref = $( this ).next().children().attr('href'); // need to match on DOM
+     }
+     if( typeof getHref == 'undefined' ){
+     //console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
+   } else {
+
+      $(this).click(function(e){
+       e.preventDefault(e);
+       e.stopPropagation(e);
+       $("#w3-img-rotate").attr("src", getHref);
+       $("#w3rPopup").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999" });
+      })
+   }
+
+  });
+
+  $( ".w3rotate" ).on( "click", function(e) {
+     var remListenerRIcont = $(document).mouseup(function (e) {
+     if ($(e.target).closest(".w3rPopupContainer").length === 0) { 
+      $("#w3rPopup").css("display", "none");
+      $("#w3-img-rotate").removeAttr("style");
+      remListenerRIcont.unbind('mouseup');
+      w3Delta = 0;
+     }
+    });
+   });
+
+};  // END observer callback
+
+// Start observing 
+if( w3targetNode !== null ){
+ const w3observer = new MutationObserver(w3callback);
+ w3observer.observe(w3targetNode, w3config);
+}
+
+$(function() {
+	
+ $('td.attach-name > span.file-name').each(function () { // need to match on DOM
+  var filenm = $(this).text();
+  if($.trim(filenm)){
+    imgext = filenm.split('.').pop().toLowerCase();
+    if( jQuery.inArray( $.trim(imgext), imgARY ) != -1 ){
+      if(Pw3A == 0){ // append
+      	$(this).append( '<a class="w3rotate" href="javascript:void(0);"><i style="margin:0px 0px 0px 5px;font-size:100%" class="icon fas fa-undo fa-rotate-270"></i></a>'); 
+      } else { // prepend
+         $(this).prepend( '<a class="w3rotate" href="javascript:void(0);"><i style="margin:0px 5px 0px 0px;font-size:100%" class="icon fas fa-undo fa-rotate-270"></i></a>'); 
+        }
+    }
+   }
+ });
+ 
+ $(".w3rotate").mouseover(function(e){
+
+    //var getPrevHref =	$( this ).prev().prev().attr('href'); // need to match on DOM
+   if(Pw3A == 0){ // appended 
+    var getPrevHref = $( this ).prev().attr('href'); // need to match on DOM
+   } else { // prepended 
+        var getPrevHref = $( this ).next().attr('href'); // need to match on DOM
+     }
+     
+    if( typeof getPrevHref == 'undefined' ){
+    //console.log('getPrevHref undefined (overall_footer_body_after.html file, rotate js code)');
+   } else {
+     $( "#w3-img-rotate" ).attr("src", getPrevHref);
+    }
+ })
+ 
+  $( ".w3rotate" ).on( "click", function(e) {
+    e.preventDefault(e);
+    e.stopPropagation(e);
+   $("#w3rPopup").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999" });
+  
+   var remListenerRIcont = $(document).mouseup(function (e) {
+     if ($(e.target).closest(".w3rPopupContainer").length === 0) { 
+     //console.log('removing1');
+      $("#w3rPopup").css("display", "none");
+      $("#w3-img-rotate").removeAttr("style");
+      remListenerRIcont.unbind('mouseup');
+      w3Delta = 0;
+     } 
+    });
+  });
+ 
+}) // END $(function() {
 </script>
+<!-- ENDIF -->
