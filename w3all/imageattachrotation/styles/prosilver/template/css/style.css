@@ -1,1 +1,33 @@
-
+#w3rPopup{
+margin:0;
+padding:0;
+width:300px;
+height:350px;
+}
+.w3divimg img{
+padding:0px;
+margin:0px;
+height:100%;
+width:100%; 
+object-fit:scale-down;
+}
+.w3divimg{
+height:200px;
+width:auto;
+text-align:center;
+padding:10px;
+margin:20px;
+object-fit:contain;
+}
+.w3divCont{
+text-align:center;
+}
+.w3wrapTABC{
+border-spacing:0;
+border-collapse:collapse;
+}
+.w3wrapTDC{
+vertical-align:middle;
+width:300px; /* same as #w3rPopup */
+height:350px;
+}
