@@ -9,7 +9,7 @@ Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> no
 
 If updating, disable the old version and delete data into ACP Extensions Manager
 
-then remove the folder imageattachrotation
+then remove the folder imageattachrotation (or whatever it was nemed before)
     
     /ext/w3all/
 
@@ -20,7 +20,7 @@ so follow installing the new 1.0.4
 
 Copy the "w3all" folder into phpBB/ext/
 
-So you'll have: phpBB/ext/w3all/w3imagerotation
+So you'll have: phpBB/ext/w3all/imageattachrotation
 
 Set ACP option "Recompile stale style components" to yes
 
