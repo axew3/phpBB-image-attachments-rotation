@@ -1,17 +1,17 @@
 {
     "name": "w3all/imageattachrotation",
     "type": "phpbb-extension",
-    "description": "Add rotate attachments images option into edit, post and reply screen",
-    "homepage": "https://github.com/axew3/phpBB-image-attachments-rotation",
-    "version": "1.0.3",
-    "time": "2020-09-24",
+    "description": "Add rotate attachments images icon/option into edit, post and reply screen",
+    "homepage": "https://axew3.com",
+    "version": "1.0.4",
+    "time": "2021-03-29",
     "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "axew3",
             "email": "me@you.us",
             "homepage": "https://www.axew3.com/w3/contact-alessio-nanni/",
-            "role": "Initial Extension author"
+            "role": ""
         }
     ],
     "require": {
@@ -19,7 +19,7 @@
         "composer/installers": "~1.0"
     },
     "extra": {
-        "display-name": "Attachments images rotation",
+        "display-name": "Attachments Images Rotation",
         "soft-require": {
             "phpbb/phpbb": ">=3.2.0,<3.4.0@dev"
         }
