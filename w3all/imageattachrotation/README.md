@@ -4,6 +4,18 @@ For jpg/jpeg, gif and png attachments files
 
 Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
+
+## Update/install: 
+
+If updating, disable the old version and delete data into ACP Extensions Manager
+
+Remove the folder 
+    
+    /ext/w3all/imageattachrotation
+
+so follow installing the new 1.0.4
+
+
 ## Install
 
 Copy the "w3all" folder into phpBB/ext/
@@ -35,24 +47,6 @@ the html code snippet is on top of the file
 
     /ext/w3all/imageattachrotation/styles/prosilver/template/css/style.css
 
-
-## Update/install: 
-
-If updating, disable the old version and delete data into ACP Extensions Manager
-
-Remove the folder 
-    
-    /ext/w3all/imageattachrotation
-
-Set ACP option "Recompile stale style components" to yes
-
-Enable the Attachments images rotation extension
-
-Test things may doing a test post
-
-If all ok, reset "Recompile stale style components" to no
-
-Done
 
 #### How do i can choose to prepend or append the rotate icon?
 
