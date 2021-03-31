@@ -49,13 +49,7 @@ Remove the folder
     
     /ext/w3all/imageattachrotation
 
-Set ACP option "Recompile stale style components" to yes
-
-Enable the Attachments images rotation extension
-
-Test things may doing a test post
-
-If all ok, reset "Recompile stale style components" to no
+so follow installing the new 1.0.4
 
 Done
 
