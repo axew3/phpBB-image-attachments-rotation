@@ -3,5 +3,9 @@ services:
         class: w3all\imageattachrotation\event\main_listener
         arguments:
             - '@language'
+            - '@template'
+            - '@request'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         tags:
             - { name: event.listener }
