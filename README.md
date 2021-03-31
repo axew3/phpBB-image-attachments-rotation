@@ -16,7 +16,7 @@ If updating, disable the old version and delete data into ACP Extensions Manager
 
 Remove the folder imageattachrotation into
     
-    /ext/w3all/imageattachrotation
+    /ext/w3all/
 
 then follow installing the new 1.0.4
 
