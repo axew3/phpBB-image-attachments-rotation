@@ -59,7 +59,7 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
-#### How do i can choose to prepend or append the rotate icon?
+## How do i can choose to prepend or append the rotate icon?
 
     /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
 
