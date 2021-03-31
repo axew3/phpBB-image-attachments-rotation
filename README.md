@@ -5,7 +5,7 @@ check new instructions and download, also here:
 
 # phpBB attachments images rotation
 For jpg/jpeg, gif and png attachments files
-## Version 1.0.3
+## Version 1.0.4
 
 Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
@@ -25,31 +25,29 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
-## phpBB cookie domain note
-Note that the setting 
-#### ACP -> Security settings -> Cookie domain:
-#### Need to be set properly. Leaving this setting empty, lead to make it fail the js code of the popup.
-
-For example, on *localhost*, set it as *localhost*, or if into online site, *mysite.com* or *my-site.co.uk* or *mysubdomain.mysite.com* etc 
-
 ## How do i can style the rotation popup?
 
-It is the file rotate_popup.html, which you can find into:
+It should fit your theme, anyway you can easily change and style it into:
 
-/ext/w3all/imageattachrotation/styles/prosilver/template/event/rotate_popup.html
+## HTML:
+    
+    /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
 
-Note that you need to respect the normal/correct html DOM in this file, that (anyway) start with a <style> tag 
+(note that you (maybe) do NOT have to change w3classes and w3ids for html elements, or the javascript code will not work) 
+the html code snippet is on top of the file
 
-<style> .... </style>
-   ... ... ...
-   
-#### It do not contain the starting 'html' and 'head' tags, and you do not have to add them (already added earlier)
+## CSS:
+
+    /ext/w3all/imageattachrotation/styles/prosilver/template/css/style.css
+
 
 ## Update/install: 
 
 If updating, disable the old version and delete data into ACP Extensions Manager
 
-Upload and copy or overwrite all files as above explained
+Remove the folder 
+    
+    /ext/w3all/imageattachrotation
 
 Set ACP option "Recompile stale style components" to yes
 
@@ -61,6 +59,14 @@ If all ok, reset "Recompile stale style components" to no
 
 Done
 
+#### How do i can choose to prepend or append the rotate icon?
+
+    /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
+
+search for line (+- on top): 
+
+     var Pw3A = 1; // 0 Append icon, 1 Prepend icon (require to rebuild the phpBB template)
+
 ## Missing older versions?
 ### Check all images attachments releases at [axew3.com](https://www.axew3.com):
 ### [phpbb images attachments rotation - all releases](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1580 "phpbb images attachments rotation")
@@ -69,5 +75,6 @@ Done
 ## License
 
 [GPLv2](license.txt)
+
 
 
