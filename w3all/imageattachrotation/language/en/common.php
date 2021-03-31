@@ -3,7 +3,7 @@
  *
  * w3 image attachments rotation. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2020, axew3, https://axew3.com
+ * @copyright (c) 2021, axew3, https://axew3.com
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -33,11 +33,6 @@ if (empty($lang) || !is_array($lang))
 // Some characters you may want to copy&paste:
 // ’ » “ ” …
 //
-		
-global $phpbb_container;
-$config = $phpbb_container->get('config');
-$request = $phpbb_container->get('request');
-$mode = $request->variable('mode', '');
 
 $lang = array_merge($lang, array(
 
@@ -46,9 +41,5 @@ $lang = array_merge($lang, array(
 	'W3POPUP_BUTTONTEXT' => 'Save image',
 	'W3POPUP_ALERT' => 'Click into image to rotate it, then Save!',
 	'W3POPUP_PROCESS' => 'Processing...',
-	
-	// may DO NOT edit here below
-	'W3IMAGEROTATION_PHPBBCOOKIEDOMAIN'	=> $config['cookie_domain'],
-	'W3IMAGEROTATION_REQMODE'	=> $request->variable('mode', ''),
 
 ));
