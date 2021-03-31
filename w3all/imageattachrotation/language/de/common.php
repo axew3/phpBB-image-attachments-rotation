@@ -34,11 +34,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-global $phpbb_container;
-$config = $phpbb_container->get('config');
-$request = $phpbb_container->get('request');
-$mode = $request->variable('mode', '');
-
 $lang = array_merge($lang, array(
 
 	'W3ROTATEIMG_TEXT' => 'Drehen',
@@ -46,9 +41,5 @@ $lang = array_merge($lang, array(
 	'W3POPUP_BUTTONTEXT' => 'Bild speichern',
 	'W3POPUP_ALERT' => 'Klicke in das Bild um es zu drehen, dann speichere es!',
 	'W3POPUP_PROCESS' => 'In Bearbeitung...',
-
-	// may DO NOT edit here below
-	'W3IMAGEROTATION_PHPBBCOOKIEDOMAIN'	=> $config['cookie_domain'],
-	'W3IMAGEROTATION_REQMODE'	=> $request->variable('mode', ''),
 
 ));
