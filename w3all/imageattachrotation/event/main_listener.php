@@ -1,9 +1,9 @@
 <?php
 /**
  *
- * w3all - Attachments images rotation. An extension for the phpBB Forum Software package.
+ * Attachments Images Rotation. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2020, axew3, https://axew3.com
+ * @copyright (c) 2021, axew3, https://axew3.com
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -16,70 +16,74 @@ namespace w3all\imageattachrotation\event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Image attachment rotation Event listener.
+ * Attachments Images Rotation Event listener.
  */
 class main_listener implements EventSubscriberInterface
 {
 	public static function getSubscribedEvents()
 	{
-	  return array(
-	    'core.user_setup' => 'load_language_on_setup',
-	    'core.download_file_send_to_browser_before'	=> 'download_file_send_to_browser_before',
-	    'core.display_forums_modify_template_vars'	=> 'display_forums_modify_template_vars',
-	  );
+		return array(
+			'core.user_setup'	=> 'load_language_on_setup',
+	    'core.page_head'	=> 'overall_header_head_append',
+			'core.page_footer' => 'overall_footer_body_after',
+		);
 	}
+	
+	//protected $config;
+  protected $language;
+	//protected $helper;
+	protected $template;
+	protected $request;
+	protected $phpbb_root_path;	
+	protected $php_ext;
 
-	/* @var \phpbb\language\language */
-	protected $language;
+	//public function __construct(\phpbb\config\config $config, \phpbb\language\language $language, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\request\request_interface $request, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\language\language $language, \phpbb\template\template $template, \phpbb\request\request_interface $request, $phpbb_root_path, $php_ext)
 
-	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\language\language	$language	Language object
-	 */
-	public function __construct(\phpbb\language\language $language)
-	{
-	  $this->language = $language;
-	}
+{
+		//$this->config = $config;
+		$this->language = $language;
+		//$this->helper   = $helper;
+		$this->template = $template;
+		$this->request = $request;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext  = $php_ext;
+ }
 
-	/**
-	 * Load common language files during user setup
-	 *
-	 * @param \phpbb\event\data	$event	Event object
-	 */
 	public function load_language_on_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
-		  'ext_name' => 'w3all/imageattachrotation',
-		  'lang_set' => 'common',
+			'ext_name' => 'w3all/imageattachrotation',
+			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
-
-	/**
-	 * @param \phpbb\event\data	$event	Event object
-	 */
- public function download_file_send_to_browser_before($event)
-	{
-	  global $auth,$attachment,$user,$phpbb_container,$cache;
-	  $request = $phpbb_container->get('request');
-
-   // if it is an allowed img and the request is 'rotate'
-
-   $validImgExt = array("jpg", "jpeg", "gif", "png");
-   $own_attachment = ($auth->acl_get('a_attach')  || $attachment['poster_id'] == $user->data['user_id']) ? true : false;
-   $mode = $request->variable('mode', '');
-   $attach_id = $attachment['attach_id'];
-
-   if ( $mode == 'rImg' && in_array($attachment['extension'], $validImgExt) && $own_attachment === true ) {
-	  require('./../ext/w3all/imageattachrotation/core/rotateImg.php');
-   }
-   // or let go
-  }
-  
- public function display_forums_modify_template_vars($event)
-	{
-	}
 	
- }
+
+	public function overall_header_head_append()
+	{
+	}	
+	
+	public function overall_footer_body_after()
+	{ 
+		
+		$w3mode = $this->request->variable('mode', '');
+
+    //$cookie_domain = empty($this->config['cookie_domain']) ? 'localhost' : $this->config['cookie_domain'];
+    //$cookie_domain = $cookie_domain[0] == '.' ? substr($cookie_domain, 1) : $cookie_domain;
+
+    // for Quick Reply condition on viewtopic, it is used S_QUICK_REPLY on file ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
+		if( $w3mode != 'edit' && $w3mode != 'post' && $w3mode != 'reply' ){ 
+			$w3mode = '';
+		}
+
+		$this->template->assign_vars(array( 
+		 'W3IMAGEROTATION_YN_A'	=> $w3mode,
+	 //'W3IMAGEROTATION_COOKIE'	=> $cookie_domain,
+    ));
+		
+	 }
+	
+	
+}
