@@ -46,8 +46,8 @@ It should fit your theme, anyway you can easily change and style it into:
     
     /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
 
-(note that you (maybe) do NOT have to change w3classes and w3ids for html elements, or the javascript code will not work) 
-the html code snippet is on top of the file
+note that maybe you do NOT have to change w3classes and w3ids for html elements, almost these used by javascript on same file.
+The html code snippet is on top of the file
 
 ## CSS:
 
