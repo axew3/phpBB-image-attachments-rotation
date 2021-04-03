@@ -1,20 +1,26 @@
+## Version 1.0.4
+Check new instructions and download, also here:
+### [phpbb images attachments rotation - 1.0.4](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
+
+Questions?
+### [Ask on topic at phpBB.com](https://www.phpbb.com/community/viewtopic.php?f=456&t=2569976 "phpBB.com help topic")
+
+
 # phpBB attachments images rotation
 For jpg/jpeg, gif and png attachments files
 ## Version 1.0.4
 
 Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
-
 ## Update/install: 
 
 If updating, disable the old version and delete data into ACP Extensions Manager
 
-then remove the folder imageattachrotation (or whatever it was nemed before) into
+Remove the folder imageattachrotation (or whatever it was nemed before) into
     
     /ext/w3all/
 
-so follow installing the new 1.0.4
-
+then follow installing the new 1.0.4
 
 ## Install
 
@@ -40,15 +46,16 @@ It should fit your theme, anyway you can easily change and style it into:
     
     /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
 
-(note that you (maybe) do NOT have to change w3classes and w3ids for html elements, or the javascript code will not work) 
-the html code snippet is on top of the file
+note that maybe you do NOT have to change w3classes and w3id for html elements, almost these used by javascript on same file, or the js code will not work.
+
+The html code snippet is on top of the file
 
 ## CSS:
 
     /ext/w3all/imageattachrotation/styles/prosilver/template/css/style.css
 
 
-#### How do i can choose to prepend or append the rotate icon?
+## How do i can choose to prepend or append the rotate icon?
 
     /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
 
