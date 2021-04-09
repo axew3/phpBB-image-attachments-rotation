@@ -209,7 +209,8 @@ else
   $transparencyColor = array('red' => 255, 'green' => 255, 'blue' => 255);
             
    if ($transparencyIndex >= 0) {
-      $transparencyColor = @imagecolorsforindex($source, $transparencyIndex);   
+      //$transparencyColor = @imagecolorsforindex($source, $transparencyIndex); // this throw error in Php8 for gif
+        $transparencyColor = $transparencyIndex != -1 ? imagecolorsforindex($new_image, ($transparencyIndex < imagecolorstotal($new_image) ? $transparencyIndex : $transparencyIndex - 1)) : 0;  
     }
      if(!$transparencyColor){
      	//exit;
