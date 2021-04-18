@@ -1,8 +1,5 @@
 ## Version 1.0.4
 
-## Questions?
-### [Ask on topic at phpBB.com](https://www.phpbb.com/community/viewtopic.php?f=456&t=2569976 "phpBB.com help topic")
-
 # phpBB attachments images rotation
 For jpg/jpeg, gif and png attachments files
 ## Version 1.0.4
@@ -53,6 +50,10 @@ The html code snippet is on top of the file
 search for line (+- on top): 
 
      var Pw3A = 1; // 0 Append icon, 1 Prepend icon (require to rebuild the phpBB template)
+     
+
+## Questions?
+### [Ask on topic at phpBB.com](https://www.phpbb.com/community/viewtopic.php?f=456&t=2569976 "phpBB.com help topic")
 
 ## Check new instructions and download, also here:
 ### [phpBB images attachments rotation - 1.0.4](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
