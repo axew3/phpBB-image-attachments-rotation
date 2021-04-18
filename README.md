@@ -25,13 +25,7 @@ Copy the "w3all" folder into phpBB/ext/
 
 So you'll have: phpBB/ext/w3all/imageattachrotation
 
-Set ACP option "Recompile stale style components" to yes
-
 Go to "ACP" > "Customise" > "Extensions" and enable the "Attachments images rotation" extension
-
-Test things may doing a test post
-
-If all ok, reset "Recompile stale style components" to no
 
 Done
 
