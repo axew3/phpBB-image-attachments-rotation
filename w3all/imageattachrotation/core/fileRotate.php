@@ -3,7 +3,7 @@
 * Rotate image by axew3
 * axew3.com
 *
-* This file is part of the phpBB Forum Software package.
+* This file is NOT part of the phpBB Forum Software package.
 *
 * @copyright (c) phpBB Limited <https://www.phpbb.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
