@@ -89,6 +89,16 @@ if (!$config['allow_attachments'] && !$config['allow_pm_attach'])
  $attachment = $db->sql_fetchrow($result);
  $db->sql_freeresult($result);
 
+if (!$attachment) // may it is an attachment just uploaded and a topic do not exist
+{
+ $sql = 'SELECT * 
+	FROM ' . ATTACHMENTS_TABLE . "
+	WHERE attach_id = $attach_id";
+ $result = $db->sql_query($sql);
+ $attachment = $db->sql_fetchrow($result);
+ $db->sql_freeresult($result);
+}
+
 if (!$attachment)
 {
   echo 'W3ERROR_NO ATTACHMENT FOUND ON DB'; exit;
