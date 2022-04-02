@@ -1,4 +1,4 @@
-## Version 1.0.4.2
+## Version 1.0.4
 Check new instructions and download, also here:
 ### [phpbb images attachments rotation - 1.0.4](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
 
@@ -20,7 +20,7 @@ Remove the folder imageattachrotation (or whatever it was nemed before) into
     
     /ext/w3all/
 
-then follow installing the new 1.0.4.2
+then follow installing the new 1.0.4
 
 ## Install
 
