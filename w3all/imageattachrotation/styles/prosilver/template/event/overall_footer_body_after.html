@@ -32,14 +32,13 @@ function w3sendThis(attach){
   return;
  }
 
- var attachID = 0;
   let ARY = [];
 
-  // if there is sid appended to attach.src (may a guest or no cookie allowed) then cleanup before
-  var cSID = attach.src.replace(/&sid=[a-zA-Z0-9]+/g, "");
-  var attachID = cSID.split('id=');
+ let params = new URLSearchParams(attach.src); // not supported on IE
+ var attachID = (parseInt(params.get("id"), 10) > 0) ? parseInt(params.get("id"), 10) : 0;
+
   ARY[0] = w3Delta;
-  ARY[1] = attachID[1];
+  ARY[1] = attachID;
 
  values =  JSON.stringify(ARY);
 
