@@ -1,8 +1,8 @@
-## Version 1.0.4
+## Version 1.0.5
 
 # phpBB attachments images rotation
 For jpg/jpeg, gif, png, webp attachments files
-## Version 1.0.4
+## Version 1.0.5
 
 Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
@@ -14,7 +14,7 @@ Remove the folder imageattachrotation (or whatever it was nemed before) into
     
     /ext/w3all/
 
-then follow installing the new 1.0.4
+then follow installing the new 1.0.5
 
 ## Install
 
