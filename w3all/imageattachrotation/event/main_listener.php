@@ -70,9 +70,6 @@ class main_listener implements EventSubscriberInterface
 		
 		$w3mode = $this->request->variable('mode', '');
 
-    //$cookie_domain = empty($this->config['cookie_domain']) ? 'localhost' : $this->config['cookie_domain'];
-    //$cookie_domain = $cookie_domain[0] == '.' ? substr($cookie_domain, 1) : $cookie_domain;
-
     // for Quick Reply condition on viewtopic, it is used S_QUICK_REPLY on file ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
 		if( $w3mode != 'edit' && $w3mode != 'post' && $w3mode != 'reply' ){ 
 			$w3mode = '';
