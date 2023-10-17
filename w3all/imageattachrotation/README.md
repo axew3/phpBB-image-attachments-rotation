@@ -1,6 +1,6 @@
-## Version 1.0.4
+## Version 1.0.5
 Check new instructions and download, also here:
-### [phpbb images attachments rotation - 1.0.4](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
+### [phpbb images attachments rotation - 1.0.5](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
 
 Questions?
 ### [Ask on topic at phpBB.com](https://www.phpbb.com/community/viewtopic.php?f=456&t=2569976 "phpBB.com help topic")
@@ -8,7 +8,7 @@ Questions?
 
 # phpBB attachments images rotation
 For jpg/jpeg, gif and png attachments files
-## Version 1.0.4
+## Version 1.0.5
 
 Tested under 3.3.0> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
@@ -20,7 +20,7 @@ Remove the folder imageattachrotation (or whatever it was nemed before) into
     
     /ext/w3all/
 
-then follow installing the new 1.0.4
+then follow installing the new 1.0.5
 
 ## Install
 
