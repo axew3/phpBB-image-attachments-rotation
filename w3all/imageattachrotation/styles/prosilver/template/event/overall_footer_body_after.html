@@ -12,6 +12,7 @@
 </div>
 
 <script>
+// axew3.com
   var w3Delta = 0;
   var countW3 = 0;
   var w3btn = document.getElementById("w3btn");
@@ -23,6 +24,10 @@
      e.style.transform = "rotate("+w3Delta+"deg)";
      if(w3Delta > 270){w3Delta = 0};
      countW3++;
+   }
+
+   function w3decodeQueryParam(p) {
+    return decodeURIComponent(p.replace(/\+/g, ' '));
    }
 
 function w3sendThis(attach){
@@ -182,7 +187,7 @@ textarea.val(text);
 
 } // END // function w3_fileSrc_ajaxup(r){
 
-   var imgARY = ["jpg", "jpeg", "gif", "png"];
+   var imgARY = ["jpg", "jpeg", "gif", "png", "webp"];
    var imgext = filenm = '';
 
 // observed
@@ -236,7 +241,7 @@ const w3callback = function(mutationsList, w3observer) {
 });
 
   $(".w3rotate").mouseover(function(e){
-    //console.log('observer on');
+   // console.log('observer on');
     if(Pw3A == 0){ // appended
       var getHref = $( this ).prev().children().attr('href'); // need to match on DOM
     } else {
@@ -247,17 +252,18 @@ const w3callback = function(mutationsList, w3observer) {
    } else {
 
       $(this).click(function(e){
-        //var parseResult = new DOMParser().parseFromString(getHref, "text/html");
-        //var parsedUrl = parseResult.documentElement.textContent;
-        //if( /sid=/ig.exec(parsedUrl) !== null){
-         //parsedUrl = parsedUrl.replace(/&sid=[a-zA-Z0-9]+/g, "");
-        //}
-        parsedUrl = decodeURI(getHref);
+
+      let pos='-3000px'; // since it is 'display:none', no value can be retrieved for the elem
+      $("#w3rPopup").css({ "display":"block","position":"absolute","top":pos,"right":"0px","left":"0px","margin":"auto","z-index":"999999" });
+      let rp0 = document.getElementById("w3rPopup").getBoundingClientRect();
+      pos = parseInt(e.pageY-rp0.height)+'px';
+
+      parsedUrl = decodeURI(getHref);
         urlString = parsedUrl.replace(/&amp;/g, '&');
        e.preventDefault(e);
        e.stopPropagation(e);
        $("#w3-img-rotate").attr("src", urlString);
-       $("#w3rPopup").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999" });
+       $("#w3rPopup").css({ "display":"block","position":"absolute","top":pos,"right":"0px","left":"0px","margin":"auto","z-index":"99999" });
       })
    }
 
@@ -315,13 +321,17 @@ $(function() {
  })
 
   $( ".w3rotate" ).on( "click", function(e) {
+      console.log(e);
     e.preventDefault(e);
     e.stopPropagation(e);
-   $("#w3rPopup").css({ "display":"block","position":"fixed","top":"0px","right":"0px","bottom":"0px","left":"0px","margin":"auto","z-index":"99999" });
+    let pos='-3000px'; // until it is 'display:none', no value can be retrieved for the elem
+   $("#w3rPopup").css({ "display":"block","position":"absolute","top":pos,"right":"0px","left":"0px","margin":"auto","z-index":"999999" });
+    let rp0 = document.getElementById("w3rPopup").getBoundingClientRect();
+    pos = parseInt(e.pageY-rp0.height)+'px';
+    $("#w3rPopup").css({ "display":"block","position":"absolute","top":pos,"right":"0px","left":"0px","margin":"auto","z-index":"999999" });
 
    var remListenerRIcont = $(document).mouseup(function (e) {
      if ($(e.target).closest(".w3rPopupContainer").length === 0) {
-     //console.log('removing1');
       $("#w3rPopup").css("display", "none");
       $("#w3-img-rotate").removeAttr("style");
       remListenerRIcont.unbind('mouseup');
