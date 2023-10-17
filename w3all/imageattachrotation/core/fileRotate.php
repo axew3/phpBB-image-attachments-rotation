@@ -172,7 +172,7 @@ else
 
 ///////////////////
 //
- $validImgExt = array("jpg", "jpeg", "gif", "png");
+ $validImgExt = array("jpg", "jpeg", "gif", "png", "webp");
 
  if (!in_array(strtolower($attachment['extension']), $validImgExt)) {
     echo 'W3ERROR_NO VALID IMG EXTENSION'; exit;
@@ -190,6 +190,8 @@ else
     $height = @imagesy($source);
   } elseif(strtolower($attachment['extension']) == 'png'){
    $source = @imagecreatefrompng($filesFolderPhysicalName);
+  } elseif(strtolower($attachment['extension']) == 'webp'){
+   $source = @imagecreatefromwebp($filesFolderPhysicalName);
   }
 
     if(!$source)
@@ -251,7 +253,16 @@ else
         imagepng($rotate,$filesFolderThumbPhysicalName);
        }
       }
-    }
+    } elseif( strtolower($attachment['extension']) == 'webp'){
+       $rotate = imagerotate($source, $degrees, 0);
+       $saved = imagewebp($rotate, $filesFolderPhysicalName);
+       // thumb
+       $source = @imagecreatefromwebp($filesFolderThumbPhysicalName);
+       if($source){
+         $rotate = imagerotate($source, $degrees, 0);
+        if($rotate){ imagewebp($rotate, $filesFolderThumbPhysicalName); }
+       }
+      }
 
   if($source){
    $endOK = true;
