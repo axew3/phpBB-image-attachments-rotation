@@ -1,4 +1,4 @@
-## Version 1.0.5
+## Version 1.0.6
 Check new instructions and download, also here:
 ### [phpbb images attachments rotation - 1.0.5](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
 
@@ -8,7 +8,7 @@ Questions?
 
 # phpBB attachments images rotation
 For jpg/jpeg, gif, png, webp attachments files
-## Version 1.0.5
+## Version 1.0.6
 
 Tested under 3.3.10> ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
 
