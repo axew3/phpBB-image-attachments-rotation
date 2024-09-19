@@ -10,8 +10,6 @@
 *
 */
 
-# 1.0.6 > let only the file's owner to rotate the image
-
 /**
 * @ignore
 */
