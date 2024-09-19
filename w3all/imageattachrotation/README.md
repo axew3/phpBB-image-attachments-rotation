@@ -1,8 +1,6 @@
 ## Version 1.0.6
 Check new instructions and download, also here:
 
-https://www.axew3.com/w3/forums/viewtopic.php?t=1639
-
 ### [phpbb images attachments rotation - 1.0.6](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
 
 Questions?
