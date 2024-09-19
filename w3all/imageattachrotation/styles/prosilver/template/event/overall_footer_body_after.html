@@ -41,9 +41,16 @@ function w3sendThis(attach){
 
  let params = new URLSearchParams(attach.src); // not supported on IE
  var attachID = (parseInt(params.get("id"), 10) > 0) ? parseInt(params.get("id"), 10) : 0;
+ var uSid = "{W3IMAGEROTATION_USID}";
+ var uAgent = "{W3IMAGEROTATION_UAGENT}";
+ var uIp = "{W3IMAGEROTATION_UIP}";
+ uAgent = window.btoa(unescape(encodeURIComponent(uAgent)));
 
   ARY[0] = w3Delta;
   ARY[1] = attachID;
+  ARY[2] = uSid;
+  ARY[3] = uAgent;
+  ARY[4] = uIp;
 
  values =  JSON.stringify(ARY);
 
@@ -321,6 +328,7 @@ $(function() {
  })
 
   $( ".w3rotate" ).on( "click", function(e) {
+      console.log(e);
     e.preventDefault(e);
     e.stopPropagation(e);
     let pos='-3000px'; // until it is 'display:none', no value can be retrieved for the elem
