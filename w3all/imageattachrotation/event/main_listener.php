@@ -24,13 +24,13 @@ class main_listener implements EventSubscriberInterface
   {
     return array(
       'core.user_setup' => 'load_language_on_setup',
-                  'core.page_head' => 'overall_header_head_append',
+      'core.page_head' => 'overall_header_head_append',
       'core.page_footer' => 'overall_footer_body_after',
     );
   }
 
   //protected $config;
-        protected $language;
+  protected $language;
   //protected $helper;
   protected $template;
   protected $request;
