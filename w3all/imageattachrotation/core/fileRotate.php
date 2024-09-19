@@ -5,10 +5,12 @@
 *
 * This file is not part of the phpBB Forum Software package.
 *
-* @copyright (c) axew3.com
+* @copyright (c) 2024 axew3.com
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
+
+# 1.0.6 > let only the file's owner to rotate the image
 
 /**
 * @ignore
@@ -16,15 +18,13 @@
 
 define('IN_PHPBB', true);
 
-///////////////////
-//
-
+#/////////////////
+#
 // Define the root from here
 $phpbb_root_path = './../../../../';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
-
-//
-///////////////////
+#
+#/////////////////
 
 // Thank you sun.
 if (isset($_SERVER['CONTENT_TYPE']))
@@ -48,6 +48,7 @@ else if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'
 
  $request = $phpbb_container->get('request');
  $ajaxdata = $request->variable('data', '');
+ $config = $phpbb_container->get('config');
 
 if(empty($ajaxdata)){
   echo 'W3ERROR_NO AJAX DATA'; exit;
@@ -58,38 +59,47 @@ $ajaxdata = explode(',',$ajaxdata);
 
  $degrees = isset($ajaxdata[0]) ? intval($ajaxdata[0]) : 0;
  $attach_id = isset($ajaxdata[1]) ? intval($ajaxdata[1]) : 0;
+ $uSid = isset($ajaxdata[2]) ? $ajaxdata[2] : 0;
+ $uAgent = isset($ajaxdata[3]) ? trim(base64_decode($ajaxdata[3])) : 0;
+ $uAgent = str_replace(chr(0), '', $uAgent);
+ $uIp = isset($ajaxdata[4]) ? trim($ajaxdata[4]) : '127.0.0.1';
+
+  if ( preg_match('/[^0-9A-Za-z]/',$uSid) ){
+   $uSid = 0;
+  }
+
  unset($ajaxdata);
 
  if( $attach_id < 1 ){
-  echo 'W3ERROR_NO ATTACHMENT (ID = 0)'; exit;
+  echo 'W3ERROR_NO ATTACHMENT'; exit;
  }
 
-//
-///////////////////
-// Start session management, do not update session page.
+# Start session management, do not update session page.
+
  $user->session_begin(false);
  if (empty($user->data)) { return; }
  $auth->acl($user->data);
  $user->setup('viewtopic');
-
-$phpbb_content_visibility = $phpbb_container->get('content.visibility');
 
 if (!$config['allow_attachments'] && !$config['allow_pm_attach'])
 {
   echo 'W3ERROR_ATTACHMENT FUNCTIONALITY DISABLED'; exit;
 }
 
-// It is required also the forum id of this attach, to know if this user can or not execute things here
-// TODO: unique query to retrieve all data
- $sql = 'SELECT T.*, A.*
+# It is required also the forum id of this attach, to know if this user can or not execute things here
+# -> since 1.0.6 > let only the file's owner to rotate the image
+
+ /*$sql = 'SELECT T.*, A.*
   FROM ' . ATTACHMENTS_TABLE . " AS A
   JOIN " . TOPICS_TABLE . " AS T on T.topic_id = A.topic_id
   WHERE A.attach_id = $attach_id";
  $result = $db->sql_query($sql);
  $attachment = $db->sql_fetchrow($result);
- $db->sql_freeresult($result);
+ $db->sql_freeresult($result);*/
 
-if (!$attachment) // may it is an attachment just uploaded into a new topic/post that do not exist
+ # The above is not required since 1.0.6
+
+if (empty($attachment)) // may it is an attachment just uploaded into a new topic/post that do not exist
 {
  $sql = 'SELECT *
   FROM ' . ATTACHMENTS_TABLE . "
@@ -103,82 +113,74 @@ if (!$attachment)
 {
   echo 'W3ERROR_NO ATTACHMENT FOUND ON DB'; exit;
 }
-else if (!download_allowed())
+elseif (!download_allowed())
 {
   echo 'W3ERROR_LINKAGE FORBIDDEN'; exit;
 }
 else
 {
 
-  if (!$attachment['in_message'] && !$config['allow_attachments'] || $attachment['in_message'] && !$config['allow_pm_attach'])
+ if( $user->data['user_id'] < 2 )
+ {
+
+  $session = $request->variable($config['cookie_name'] . '_sid', '', false, \phpbb\request\request_interface::COOKIE);
+
+  if( empty($session) && !empty($uSid) )
   {
-    echo 'W3ERROR_ATTACHMENT FUNCTIONALITY DISABLED'; exit;
+    $session = $uSid;
   }
 
-  if ($attachment['is_orphan'])
+  if(!empty($session))
   {
-    // We allow admins having attachment permissions to see orphan attachments...
-    $own_attachment = ($auth->acl_get('a_attach') || $attachment['poster_id'] == $user->data['user_id']) ? true : false;
 
-    if (!$own_attachment)
-    {
-      echo 'W3ERROR_NO PERMISSION'; exit;
-    }
-
-    // Obtain all extensions...
-    $extensions = $cache->obtain_attach_extensions(true);
-  }
-  else
-  {
-    if (!$attachment['in_message'])
-    {
-
-      phpbb_download_handle_forum_auth($db, $auth, $attachment['topic_id']);
-
-      $sql = 'SELECT forum_id, post_visibility
-        FROM ' . POSTS_TABLE . '
-        WHERE post_id = ' . (int) $attachment['post_msg_id'];
-      $result = $db->sql_query($sql);
-      $post_row = $db->sql_fetchrow($result);
-      $db->sql_freeresult($result);
-
-      if (!$post_row || !$phpbb_content_visibility->is_visible('post', $post_row['forum_id'], $post_row))
-      {
-        // Attachment of a soft deleted post and the user is not allowed to see the post
-        echo 'W3ERROR_NO PERMISSION'; exit;
+     if ( preg_match('/[^0-9A-Za-z]/',$session) ){
+        echo 'W3ERROR_NO VALID COOKIE sid'; exit;
       }
-    }
-    else
-    {
-      // Attachment is in a private message.
-      $post_row = array('forum_id' => false);
-      phpbb_download_handle_pm_auth($db, $auth, $user->data['user_id'], $attachment['post_msg_id']);
-    }
 
-    $extensions = array();
-    if (!extension_allowed($post_row['forum_id'], $attachment['extension'], $extensions))
-    {
-      echo 'W3ERROR_IMAGE EXT NOT ALLOWED'; exit;
+    $cuid = $request->variable($config['cookie_name'] . '_u', 0, false, \phpbb\request\request_interface::COOKIE);
+    $cuid = $cuid < 2 ? $attachment['poster_id'] : $cuid;
+
+   if( $cuid > 1 )
+   { # maybe only the user_id is required here
+       #$sql = "SELECT * FROM " . USERS_TABLE . " JOIN " . SESSIONS_TABLE . "
+       $sql = "SELECT user_id FROM " . USERS_TABLE . " JOIN " . SESSIONS_TABLE . "
+       WHERE " . SESSIONS_TABLE . ".session_user_id = '" . (int) $cuid . "'
+        AND " . SESSIONS_TABLE . ".session_id = '" . $db->sql_escape($session)."'
+        AND " . SESSIONS_TABLE . ".session_ip = '" . $db->sql_escape($uIp)."'
+        AND " . SESSIONS_TABLE . ".session_browser = '" . $db->sql_escape($uAgent)."'
+        AND " . SESSIONS_TABLE . ".session_user_id = " . USERS_TABLE . ".user_id";
+
+      $result = $db->sql_query($sql);
+      #$user_data = $db->sql_fetchrow($result);#$user_data['user_id'];
+      $user_id = $db->sql_fetchrow($result);
     }
+   }
   }
 
-// let admins and moderators that can edit or attachment owner to follow
-  $own_attachment = ($auth->acl_get('m_edit', $attachment['forum_id']) || $attachment['poster_id'] == $user->data['user_id']) ? true : false;
+  #if(!empty($user_data['user_id']) && $user_data['user_id'] > 1 && $user->data['user_id'] < 2)
+  if(!empty($user_id['user_id']) && $user_id['user_id'] > 1 && $user->data['user_id'] < 2)
+  {
+    $user->data['user_id'] = $user_id['user_id'];
+  }
 
-  if (!$own_attachment) {
-    echo print_r($auth->acl($user->data));
-      echo 'W3ERROR_NO PERMISSION'; exit;
-    }
+  # Let nobody but the attachment owner to follow
+  #$own_attachment = $attachment['poster_id'] == $user->data['user_id'] ? true : false;
+  # Allow admins having attachment permissions to edit
+  $own_attachment = ($auth->acl_get('a_attach') || $attachment['poster_id'] == $user->data['user_id']) ? true : false;
 
-///////////////////
-//
+   if ( !$own_attachment ) {
+     echo 'W3ERROR_NO PERMISSION'; exit;
+   }
+
+#########
+
  $validImgExt = array("jpg", "jpeg", "gif", "png", "webp");
 
  if (!in_array(strtolower($attachment['extension']), $validImgExt)) {
     echo 'W3ERROR_NO VALID IMG EXTENSION'; exit;
  }
 
- $degrees = 360-$degrees; // passed clockwise, expect anticlockwise
+ $degrees = 360-$degrees; # passed clockwise, expect anticlockwise
  $filesFolderPhysicalName = $phpbb_root_path . $config['upload_path']. '/' . $attachment['physical_filename'];
  $filesFolderThumbPhysicalName = $phpbb_root_path . $config['upload_path']. '/' . 'thumb_' . $attachment['physical_filename'];
 
@@ -214,7 +216,7 @@ else
      }
 
    } elseif (strtolower($attachment['extension']) == 'gif'){
-   // GIF: will not save the gif BG Matte if there is applied to the gif
+   # GIF: will not save the gif BG Matte if there is applied to the gif
    // https://www.axew3.com/w3/forums/viewtopic.php?f=7&t=1572
   $new_image = imagecreatetruecolor($width, $height);
   $transparencyIndex = imagecolortransparent($source);
@@ -275,8 +277,8 @@ else
 
 
 if ($saved){
-  // Set the attach ID to a new one into db, to get the new file after, and not the cached one
-  // There is a more efficient way to achieve this? Using phpbb.plupload, after the response?
+  # Set the attach ID to a new one into db, to get the new file after, and not the cached one
+  # There is a more efficient way to achieve this? Using phpbb.plupload, after the response?
 
  $sql_arr = array(
     'attach_id'    => '0',
@@ -319,6 +321,4 @@ $new_attachID = (int) $db->sql_nextid();
 
 exit;
 
-//
-///////////////////
 }
