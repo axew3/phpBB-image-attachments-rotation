@@ -1,4 +1,4 @@
-## Version 1.0.5
+## Version 1.0.6
 
 # phpBB attachments images rotation
 For jpg/jpeg, gif, png, webp attachments files
