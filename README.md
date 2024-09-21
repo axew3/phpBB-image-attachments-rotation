@@ -1,5 +1,8 @@
 ## Version 1.0.6
 
+## Note that you'll find out always the last and improved version here:
+# https://www.axew3.com/w3/forums/viewtopic.php?t=1639
+
 # phpBB attachments images rotation
 For jpg/jpeg, gif, png, webp attachments files
 ## Version 1.0.6
