@@ -8,6 +8,7 @@ For jpg/jpeg, gif, png, webp attachments files
 ## Version 1.0.6
 
 Tested under 3.3.13 > ( 3.2.0> should also work fine, but not tested ) ( 3.1.0> not tested )
+and any Php version
 
 ## Update/install: 
 
