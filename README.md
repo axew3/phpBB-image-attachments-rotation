@@ -1,6 +1,6 @@
 ## Version 1.0.6
 
-## Note that since 21.09.2024 you'll find out always (but only) the last and improved version here:
+## Note that you'll find out always the last and improved version here:
 # https://www.axew3.com/w3/forums/viewtopic.php?t=1639
 
 # phpBB attachments images rotation
