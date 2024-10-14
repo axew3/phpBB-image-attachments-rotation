@@ -1,3 +1,6 @@
+## Version 1.0.7
+Let rotate attachments to Admins, Moderators, and the file owner
+
 ## Version 1.0.6
 Check new instructions and download, also here:
 
