@@ -61,7 +61,7 @@ $ajaxdata = explode(',',$ajaxdata);
  $uAgent = isset($ajaxdata[3]) ? trim(base64_decode($ajaxdata[3])) : 0;
  $uAgent = str_replace(chr(0), '', $uAgent);
  $uIp = isset($ajaxdata[4]) ? trim($ajaxdata[4]) : '127.0.0.1';
-
+ $w3all_forumID = isset($ajaxdata[5]) ? intval($ajaxdata[5]) : 10000000;
   if ( preg_match('/[^0-9A-Za-z]/',$uSid) ){
    $uSid = 0;
   }
@@ -161,10 +161,11 @@ else
     $user->data['user_id'] = $user_id['user_id'];
   }
 
-  # Let nobody but the attachment owner to follow
-  #$own_attachment = $attachment['poster_id'] == $user->data['user_id'] ? true : false;
-  # Allow admins having attachment permissions to edit
-  $own_attachment = ($auth->acl_get('a_attach') || $attachment['poster_id'] == $user->data['user_id']) ? true : false;
+
+  # Allow admins, moderators having attachment permissions and the owner to edit
+
+
+  $own_attachment = ($auth->acl_get('a_attach') || $auth->acl_get('f_edit', $w3all_forumID) || $attachment['poster_id'] == $user->data['user_id']) ? true : false;
 
    if ( !$own_attachment ) {
      echo 'W3ERROR_NO PERMISSION'; exit;
