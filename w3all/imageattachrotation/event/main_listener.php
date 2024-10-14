@@ -49,7 +49,7 @@ class main_listener implements EventSubscriberInterface
     $this->request = $request;
     $this->phpbb_root_path = $phpbb_root_path;
     $this->php_ext  = $php_ext;
-    $this->forumID = 191270; // a security (??)
+    $this->forumID = 0;
  }
 
   public function load_language_on_setup($event)
