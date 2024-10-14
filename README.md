@@ -1,4 +1,4 @@
-## Version 1.0.6
+## Version 1.0.7
 
 ## Note that you'll find out always the last and improved version here:
 ## https://www.axew3.com/w3/forums/viewtopic.php?t=1639
