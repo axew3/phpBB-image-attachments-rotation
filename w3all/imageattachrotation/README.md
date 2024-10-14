@@ -1,10 +1,10 @@
 ## Version 1.0.7
 Let rotate attachments to Admins, Moderators, and the file owner
 
-## Version 1.0.6
+## Version 1.0.7
 Check new instructions and download, also here:
 
-### [phpbb images attachments rotation - 1.0.6](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
+### [phpbb images attachments rotation - 1.0.7](https://www.axew3.com/w3/forums/viewtopic.php?f=20&t=1639 "phpbb images attachments rotation")
 
 Questions?
 ### [Ask on topic at phpBB.com](https://www.phpbb.com/community/viewtopic.php?f=456&t=2569976 "phpBB.com help topic")
