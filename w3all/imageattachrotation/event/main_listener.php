@@ -24,7 +24,8 @@ class main_listener implements EventSubscriberInterface
   {
     return array(
       'core.user_setup' => 'load_language_on_setup',
-      'core.page_head' => 'overall_header_head_append',
+      'core.posting_modify_post_data' => 'posting_modify_post_data',
+      'core.page_header' => 'overall_header_head_append',
       'core.page_footer' => 'overall_footer_body_after',
     );
   }
@@ -48,6 +49,7 @@ class main_listener implements EventSubscriberInterface
     $this->request = $request;
     $this->phpbb_root_path = $phpbb_root_path;
     $this->php_ext  = $php_ext;
+    $this->forumID = 191270; // a security (??)
  }
 
   public function load_language_on_setup($event)
@@ -61,13 +63,18 @@ class main_listener implements EventSubscriberInterface
   }
 
 
+  public function posting_modify_post_data($e)
+  {
+    $this->forumID = $e['forum_id'];
+  }
+
   public function overall_header_head_append()
   {
   }
 
   public function overall_footer_body_after()
   {
-    global $request;
+    global $request,$w3all_forumID;
     $w3mode = $this->request->variable('mode', '');
     $w3usid = $this->request->variable('sid', '');
     #$uagent = $this->request->header('User-Agent');
@@ -86,10 +93,8 @@ class main_listener implements EventSubscriberInterface
      'W3IMAGEROTATION_USID' => $w3usid,
      'W3IMAGEROTATION_UAGENT' => $uagent,
      'W3IMAGEROTATION_UIP'  => $uip,
-   //'W3IMAGEROTATION_COOKIE' => $cookie_domain,
+     'W3IMAGEROTATION_FORUMID' => $this->forumID,
     ));
 
    }
-
-
 }
