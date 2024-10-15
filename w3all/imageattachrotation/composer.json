@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Add rotate attachments images icon/option into edit, post and reply screen",
     "homepage": "https://axew3.com",
-    "version": "1.0.6",
-    "time": "2024-09-19",
+    "version": "1.0.8",
+    "time": "2024-10-15",
     "license": "GPL-2.0-only",
     "authors": [
         {
