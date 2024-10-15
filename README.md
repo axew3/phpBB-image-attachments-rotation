@@ -42,7 +42,7 @@ It should fit your theme, anyway you can easily change and style it into:
 
 ## HTML:
     
-    /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
+    /ext/w3all/imageattachrotation/styles/all/template/event/overall_footer_body_after.html
 
 note that maybe you do NOT have to change w3classes and w3id for html elements, almost these used by javascript on same file, or the js code will not work.
 
@@ -50,12 +50,12 @@ The html code snippet is on top of the file
 
 ## CSS:
 
-    /ext/w3all/imageattachrotation/styles/prosilver/template/css/style.css
+    /ext/w3all/imageattachrotation/styles/all/template/css/style.css
 
 
 ## How do i can choose to prepend or append the rotate icon?
 
-    /ext/w3all/imageattachrotation/styles/prosilver/template/event/overall_footer_body_after.html
+    /ext/w3all/imageattachrotation/styles/all/template/event/overall_footer_body_after.html
 
 search for line (+- on top): 
 
