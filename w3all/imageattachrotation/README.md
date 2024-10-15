@@ -1,3 +1,8 @@
+## Version 1.0.8
+just fix the file 
+/w3all/imageattachrotation/styles/all/template/event/overall_header_head_append.html
+so to correctly load the css file that style the rotatotion popup
+
 ## Version 1.0.7
 Let rotate attachments to Admins, Moderators, and the file owner
 
